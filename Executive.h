@@ -34,13 +34,7 @@ class Executive{
         *@post Displays the logo for the game
         **/
         void displayLogo();
-        /**
-        *@pre none
-        *@post none
-        *@post Displays the menu for the game
-        **/
-        void displayMenu();
-        /**
+       /**
         *@pre none
         *@post none
         *@post Handles the majority of functionality within
@@ -99,8 +93,37 @@ class Executive{
          */
         void clearScreen();
         /**
-         *@brief Let's the user see if they hit or miss, then continues.
+         *@brief Continues to next turn after pressing a key.
          */
         void pressToContinue();
+        /**
+         *@brief Let's the user see if they hit or miss.
+         */
+        void guessFeedbackMsg(bool status);
+        /**
+         *@brief The sequence procedure performed by each player on their turn.
+         * This is to factor out the repetitive code.
+         *@return A boolean indicating if the current turn ended the game
+         */
+        bool playerTurnProcedure(Players* current, Players* other);
+
+        /**
+        *@pre none
+        *@return An int indicating the combination of # of players, game type, and AI difficulty
+        *@post Displays the top-level menu for the game
+        **/
+        int displayMenu();
+
+        int displayMenuDifficultyAI();
+
+        int displayMenuGameMode(bool isHardAIMode);
+
+        void spawnGame(int gameEncoding);
+
+        void runTwoPlayerGame(int gamemode);
+
+        void runOnePlayerGame(int gamemode, int aiLevel);
+
+
 };
 #endif

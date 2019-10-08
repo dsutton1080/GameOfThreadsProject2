@@ -8,17 +8,11 @@ Executive::Executive(){
   displayLogo();
   row = numberOfShips = choice = 0;
   column = ' ';
-  player1 = new Players();
-  player2 = new Players();
-  displayMenu();
+  player1 = nullptr;
+  player2 = nullptr;
 }
 //Destructor of the Executive class
 Executive::~Executive(){
-    player1->setID(" ");
-    player2->setID(" ");
-    delete player1;
-    delete player2;
-
 }
 //Displays the logo created for the Battleship game
 void Executive::displayLogo(){
@@ -32,12 +26,13 @@ void Executive::displayLogo(){
 //Displays the menu that is seen when the game begins
 //The menu continues to ask for input until either a new game is started
 //of exit is choosen
-void Executive::displayMenu(){
+int Executive::displayMenu(){
     std::cout << "\nPlease make a selection: \n";
-    std::cout << "1. Start a new 2 player game\n";
-    std::cout << "2. Exit\n";
+    std::cout << "1. Start a new single player game\n";
+    std::cout << "2. Start a new two player game\n";
+    std::cout << "3. Exit\n";
     int choice = 0;
-	while (choice != 2) {
+	while (choice != 3) {
 		std::cout << "\nEnter your choice: ";
 		std::cin >> choice;
 		while (std::cin.fail() || choice > 2 || choice < 1){
@@ -47,97 +42,175 @@ void Executive::displayMenu(){
         std::cout << "\nEnter your choice: ";
         std::cin >> choice;
         }
-        if(choice == 1){
-            run();
+        if(choice == 1) {
+            return(1 + (10 * displayMenuDifficultyAI()));
         }
-        else if(choice == 2){
+        else if(choice == 2) {
+            return(2 + (10 * displayMenuGameMode(false)));
+        }
+        else if(choice == 3) {
             std::cout << "Goodbye!\n";
             exit(0);
         }
     }
 }
 
+int Executive::displayMenuDifficultyAI() {
+  std::cout << "\nPlease make a selection: \n";
+  std::cout << "1. Easy difficulty AI\n";
+  std::cout << "2. Medium difficulty AI\n";
+  std::cout << "3. Hard difficulty AI\n";
+  std::cout << "4. Exit\n";
+  int choice = 0;
+  while (choice != 4) {
+		std::cout << "\nEnter your choice: ";
+		std::cin >> choice;
+		while (std::cin.fail() || choice > 4 || choice < 1){
+        std::cin.clear();
+        std::cin.ignore(INT8_MAX, '\n');
+        std::cout << "Invalid selection, try again.\n";
+        std::cout << "\nEnter your choice: ";
+        std::cin >> choice;
+        }
+        if(choice == 1) {
+            return(1 + (10 * displayMenuGameMode(false)));
+        }
+        else if(choice == 2) {
+            return(2 + (10 * displayMenuGameMode(false)));
+        }
+        else if(choice == 3) {
+            return(3 + (10 * displayMenuGameMode(true)));
+        }
+        else if(choice == 4) {
+            std::cout << "Goodbye!\n";
+            exit(0);
+        }
+    }
+}
+
+int Executive::displayMenuGameMode(bool isAIHardMode) {
+  std::cout << "\nPlease make a selection: \n";
+  std::cout << "1. Normal Battleship\n";
+  std::cout << "2. Normal Battleship with a once-per-round 'Special Shot'\n";
+  std::cout << "3. Special Game Type: Make-It Take-It\n";
+  std::cout << "4. Exit\n";
+  int choice = 0;
+  while (choice != 4) {
+		std::cout << "\nEnter your choice: ";
+		std::cin >> choice;
+		while (std::cin.fail() || choice > 4 || choice < 1){
+        std::cin.clear();
+        std::cin.ignore(INT8_MAX, '\n');
+        std::cout << "Invalid selection, try again.\n";
+        std::cout << "\nEnter your choice: ";
+        std::cin >> choice;
+        }
+        if(choice == 1) {
+            return(1);
+        }
+        else if(choice == 2) {
+            return(2);
+        }
+        else if(choice == 3) {
+            if(isAIHardMode) {
+              std::cout << "BEWARE: Playing this Special Game Mode on hard mode will \
+              result in an immediate loss if you are to miss even a single shot. We wish you good luck.";
+            }
+            return(3);
+        }
+        else if(choice == 4) {
+            std::cout << "Goodbye!\n";
+            exit(0);
+        }
+    }
+}
+
+void Executive::spawnGame(int gameEncoding) {
+  switch(gameEncoding) {
+    //** Two Player Games **//
+
+    // Normal game
+    case 12: runTwoPlayerGame(1); break;
+
+    // Normal game w/ special shot mode
+    case 22: runTwoPlayerGame(2); break;
+
+    // Make-it Take-it game mode
+    case 32: runTwoPlayerGame(3); break;
+
+
+    //** One-player Games **//
+
+    // easy AI, normal game mode
+    case 111: runOnePlayerGame(1,1); break;
+
+    // medium AI, normal game mode
+    case 121: runOnePlayerGame(1,2); break;
+
+    // hard AI, normal game mode
+    case 131: runOnePlayerGame(1,3); break;
+
+    // easy AI, special shot enabled
+    case 211: runOnePlayerGame(2,1); break;
+
+    // medium AI, special shot enabled
+    case 221: runOnePlayerGame(2,2); break;
+
+    // hard AI, special shot enabled
+    case 231: runOnePlayerGame(2,3); break;
+
+    // easy AI, Make-it Take-it mode
+    case 311: runOnePlayerGame(3,1); break;
+
+    // medium AI, Make-it Take-it mode
+    case 321: runOnePlayerGame(3,2); break;
+
+    // hard AI, Make-it Take-it mode
+    case 331: runOnePlayerGame(3,3); break;
+
+  }
+}
+
+
+void Executive::runTwoPlayerGame(int gamemode) {
+  std::cout << "Two Player Game!\n";
+}
+
+void Executive::runOnePlayerGame(int gamemode, int aiLevel) {
+  std::cout << "One Player Game!\n";
+}
+
 //Handles processing the majority of the functionality within the game
 //Sets players name, calls the setShip method to begin setting the ships,
 //and handles swapping turns for each player until the game is won
 void Executive::run(){
- std::cout << "Let's play some BATTLESHIP!!\n";
- setPlayer1Name();
- setPlayer2Name();
- std::cout << "\n\nGreat! Now lets decide how many ships to play with.\n";
- std::cout << "The number of ships must be at least 1 and no more than 5.\n";
- getNumberOfShips();
+//  Players player1tmp;
+//  Players player2tmp;
+//  player1 = &player1tmp;
+//  player2 = &player2tmp;
 
- player1->setShips(numberOfShips);
- player2->setShips(numberOfShips);
- clearScreen();
- //Swaps between players 1 and 2, giving each a chance to "shoot"
- //at the opponents board. Informs the user if their shot was a hit
- //or a miss
- std::cout << "The ships are set and its time for the game to begin!\n";
- std::cout << "Let's play some BATTLESHIP!!\n";
+ float gameMode = displayMenu();
+ spawnGame(gameMode);
+//  setPlayer1Name();
+//  setPlayer2Name();
 
- if(player1->shipsSet() == true && player2->shipsSet() == true){
-    while(player1->hasLost() == false && player2->hasLost() == false){
-        player1->getBoards();
-        std::cout << "\n" << player1->getID() << " it's your turn!\n";
-        getColumn();
-        getRow();
-        if(player2->getHit(column, row) == true){
-            std::cout << "\nHIT!!!\n";
-            player2->markMyHits(column, row);
-            player1->markTheirHits(column, row);
-        }
-        else{
-            std::cout << "\nMISS!!!\n";
-            player2->markMyMisses(column, row);
-            player1->markTheirMisses(column, row);
-        }
-        clearScreen();
-        pressToContinue();
-        player2->getBoards();
-        std::cout << "\n" << player2->getID() << " it's your turn!\n";
-        getColumn();
-        getRow();
-        if(player1->getHit(column, row) == true){
-            std::cout << "\nHIT!!!\n";
-            player1->markMyHits(column, row);
-            player2->markTheirHits(column, row);
+//  getNumberOfShips();
 
-        }
-        else{
-            std::cout << "\nMISS!!!\n";
-            player1->markMyMisses(column, row);
-            player2->markTheirMisses(column, row);
-        }
-        clearScreen();
-        pressToContinue();
-    }
-    //Checks if either player has lost the game
-    //If true is returned for either player, declares them the winner
-    //and displays their offensive and defensive boards
-    if(player1->hasLost() == true || player2->hasLost() == true){
-        if(player2->hasLost() == true){
-            player1->markMyHits(column, row);
-            std::cout << player1->getID() << " has won the game!!!\n";
-            player1->getOffensiveBoard();
-            player1->getDefensiveBoard();
-            player1->cleanBoard();
-            player2->cleanBoard();
-            displayMenu();
-        }
-        else if(player1->hasLost() == true){
-            player2->markMyHits(column, row);
-            std::cout << player2->getID() << " has won the game!!!\n";
-            player2->getOffensiveBoard();
-            player2->getDefensiveBoard();
-            player1->cleanBoard();
-            player2->cleanBoard();
-            displayMenu();
-        }
-    }
- }
+//  player1->setShips(numberOfShips);
+//  clearScreen();
+//  player2->setShips(numberOfShips);
+//  clearScreen();
+//  //Swaps between players 1 and 2, giving each a chance to "shoot"
+//  //at the opponents board. Informs the user if their shot was a hit
+//  //or a miss
+//  std::cout << "The ships are set and its time for the game to begin!\n";
+//  std::cout << "Let's play some BATTLESHIP!!\n";
 
+//   while(true){
+//       if(playerTurnProcedure(player1, player2)) break;
+//       if(playerTurnProcedure(player2, player1)) break;
+//   }
+//   run();
 }
 //Prompts player 1 to enter a name to be known by
 void Executive::setPlayer1Name(){
@@ -168,6 +241,8 @@ void Executive::getP2Name(){
 //between 1 and 5 ships allowed. Prompts user until valid input is
 //establised
 void Executive::getNumberOfShips(){
+  std::cout << "\n\nGreat! Now lets decide how many ships to play with.\n";
+  std::cout << "The number of ships must be at least 1 and no more than 5.\n";
   std::cout << "Enter the number of ships(1-5): ";
   std::cin >> numberOfShips;
   std::cin.clear();
@@ -228,4 +303,41 @@ void Executive::pressToContinue(){
     std::cin>>press;
     press= (toupper(press));
   }
+}
+
+void Executive::guessFeedbackMsg(bool status){
+  if(status) {
+    std::cout << "HIT!\n";
+  }else{
+    std::cout << "MISS!\n";
+  }
+}
+
+bool Executive::playerTurnProcedure(Players* current, Players* other) {
+  current->getBoards();
+  std::cout << "\n" << current->getID() << " it's your turn!\n";
+  getColumn();
+  getRow();
+  bool hitStatus = false;
+  if(other->getHit(column, row) == true){
+      hitStatus = true;
+      other->markMyHits(column, row);
+      current->markTheirHits(column, row);
+
+      if(other->hasLost() == true){
+        current->markMyHits(column, row);
+        std::cout << current->getID() << " has won the game!!!\n";
+        current->getOffensiveBoard();
+        current->getDefensiveBoard();
+        return(true);
+      }
+  }
+  else{
+      other->markMyMisses(column, row);
+      current->markTheirMisses(column, row);
+  }
+  clearScreen();
+  guessFeedbackMsg(hitStatus);
+  pressToContinue();
+  return(false);
 }
