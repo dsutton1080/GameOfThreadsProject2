@@ -4,7 +4,7 @@
 #include "Boards.h"
 
 class Players{
-private:
+protected:
 	///Creating an object to access to board class
 	Boards* myBoard;
 	///String that save player's desire name
