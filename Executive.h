@@ -15,21 +15,7 @@ class Executive{
       *@post Prompts the user to enter the number of ships to be
       *     used during gameplay. Between 1 and 5 ships are allowed
       **/
-      void getNumberOfShips();
-      /**
-      *@pre none
-      *@post none
-      *@post Repeatedly prmpts the user for a column letter until
-      *     a valid column letter is entered
-      **/
-      void getColumn();
-      /**
-      *@pre none
-      *@post none
-      *@post Repeatedly prmpts the user for a row number until
-      *     a valid row number is entered
-      **/
-      void getRow();
+      int getNumberOfShips();
       /**
        *@brief clears the screen.
        */

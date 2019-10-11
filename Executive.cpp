@@ -260,6 +260,9 @@ void Executive::runSpecialShot(Players* p1, Players* p2) {
 }
 
 void Executive::runMakeItTakeIt(Players* p1, Players* p2) {
+  while(true){
+        //
+    }
 }
 
 //Prompts the user to enter how many ships to be used during the game
@@ -279,36 +282,6 @@ int Executive::getNumberOfShips(){
     std::cin >> numberOfShips;
   }
   return numberOfShips;
-}
-//Prompts the user to enter what column is to be targeted
-//Prompts user until valid input is established
-void Executive::getColumn(){
-  std::cout << "\nEnter the column letter: ";
-  std::cin >> column;
-  column = (toupper(column));
-  while(column < 65 || column > 72){
-    if(column < 65 || column > 72){
-    std::cout << "Invalid selection, try again\n";
-    std::cout << "Enter the column letter: ";
-    std::cin >> column;
-   }
-   else{
-     std::cin >> column;
-   }
-  }
-}
-//Prompts the user to enter what row is to be targeted
-//Prompts user until valid input is established
-void Executive::getRow(){
-  std::cout << "\nEnter the row number: ";
-  std::cin >> row;
-  while (std::cin.fail() || row > 7 || row < 0){
-    std::cin.clear();
-    std::cin.ignore(INT8_MAX, '\n');
-    std::cout << "Invalid selection, try again.\n";
-    std::cout << "\nEnter the row number: ";
-    std::cin >> row;
-  }
 }
 
 //Clear Screen by Printing Empty line to avoid players can see each others' boards
@@ -331,19 +304,19 @@ void Executive::pressToContinue(){
   }
 }
 
-void Executive::guessFeedbackMsg(bool status){
+void Executive::guessFeedbackMsg(bool status, int row, char col){
   if(status) {
-    std::cout << "HIT!\n";
+    std::cout << "You HIT (" << row << ", " << col << ")!\n";
   }else{
-    std::cout << "MISS!\n";
+    std::cout << "You MISSED (" << row << ", " << col << ")!\n";
   }
 }
 
 bool Executive::playerTurnProcedure(Players* current, Players* other) {
   current->getBoards();
   std::cout << "\n" << current->getID() << " it's your turn!\n";
-  char column = getColumn();
-  int row = getRow();
+  char column = current->getColumn();
+  int row = current->getRow();
   bool hitStatus = false;
   if(other->getHit(column, row) == true){
       hitStatus = true;
@@ -363,7 +336,18 @@ bool Executive::playerTurnProcedure(Players* current, Players* other) {
       current->markTheirMisses(column, row);
   }
   clearScreen();
-  guessFeedbackMsg(hitStatus);
+  guessFeedbackMsg(hitStatus, row, column);
   pressToContinue();
   return(false);
 }
+
+// bool Executive::specialShotProcedure(Players* current, Players* other) {
+//   current->getBoards();
+//   std::cout << "\n" << current->getID() << " it's your turn! This is a special shot!\n";
+//   int shotEncoding = promptSpecialShotSelection();
+//   std::cout << "\n
+//   char column = getColumn();
+//   int row = getRow();
+//   int* shotAtRows = getSpecialShotRows(row, col)
+//   char* shotAtCols =
+// }
