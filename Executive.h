@@ -2,6 +2,8 @@
 #define EXECUTIVE_H
 #include "Boards.h"
 #include "Players.h"
+#include "AI.h"
+
 class Executive{
     private:
       /**

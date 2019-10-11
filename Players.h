@@ -4,7 +4,7 @@
 #include "Boards.h"
 
 class Players{
-private:
+protected:
 	///Creating an object to access to board class
 	Boards* myBoard;
 	///String that save player's desire name
@@ -55,7 +55,7 @@ public:
 	 *@pre Number of ships being placed known.
 	 *@post All ships are placed on the board.
 	 */
-	void setShips(int);
+	virtual void setShips(int);
 	/**
 	 *@pre Name desired for the player is given in exec.
 	 *@post Name is placed in storage for use by Players.

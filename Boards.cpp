@@ -31,7 +31,7 @@ Boards::~Boards(){
 //is considered valid and true is returned, else false.
 bool Boards::isValid(int column, int row){
   if((column <= 7 && column >= 0) && (row <= 7 && row >= 0)){
-    if(defensiveBoard[column][row] == '~'){
+    if(defensiveBoard[row][column] == '~'){
       return true;
     }
   }
@@ -90,8 +90,13 @@ bool Boards::isHit(int column, int row){
 //marks the designated location within the arrays
 void Boards::markShips(int column, int row){
     defensiveBoard[row][column] = 'S';
-    displayDefensiveBoard();
+    //displayDefensiveBoard();
 }
+
+void Boards::unmarkShips(int column, int row) {
+	defensiveBoard[row][column] = '~';
+}
+
 //If no more ships('S') exist within the array returns true
 //else returns false
 bool Boards::gameWon(){
