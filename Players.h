@@ -70,6 +70,10 @@ public:
 	 *@post Returns true if a ship is at that location.
 	 */
 	bool getHit(char, int);
+	/**
+	 *@brief IO interaction to set the player's name
+	 */
+	void setIDinteractive();
 
 	/************************************
 	 * Functions

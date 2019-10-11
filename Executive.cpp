@@ -8,8 +8,6 @@ Executive::Executive(){
   displayLogo();
   row = numberOfShips = choice = 0;
   column = ' ';
-  player1 = nullptr;
-  player2 = nullptr;
 }
 //Destructor of the Executive class
 Executive::~Executive(){
@@ -130,43 +128,43 @@ void Executive::spawnGame(int gameEncoding) {
     //** Two Player Games **//
 
     // Normal game
-    case 12: runTwoPlayerGame(1); break;
+    case 12: runGame(1,0); break;
 
     // Normal game w/ special shot mode
-    case 22: runTwoPlayerGame(2); break;
+    case 22: runGame(2,0); break;
 
     // Make-it Take-it game mode
-    case 32: runTwoPlayerGame(3); break;
+    case 32: runGame(3,0); break;
 
 
     //** One-player Games **//
 
     // easy AI, normal game mode
-    case 111: runOnePlayerGame(1,1); break;
+    case 111: runGame(1,1); break;
 
     // medium AI, normal game mode
-    case 121: runOnePlayerGame(1,2); break;
+    case 121: runGame(1,2); break;
 
     // hard AI, normal game mode
-    case 131: runOnePlayerGame(1,3); break;
+    case 131: runGame(1,3); break;
 
     // easy AI, special shot enabled
-    case 211: runOnePlayerGame(2,1); break;
+    case 211: runGame(2,1); break;
 
     // medium AI, special shot enabled
-    case 221: runOnePlayerGame(2,2); break;
+    case 221: runGame(2,2); break;
 
     // hard AI, special shot enabled
-    case 231: runOnePlayerGame(2,3); break;
+    case 231: runGame(2,3); break;
 
     // easy AI, Make-it Take-it mode
-    case 311: runOnePlayerGame(3,1); break;
+    case 311: runGame(3,1); break;
 
     // medium AI, Make-it Take-it mode
-    case 321: runOnePlayerGame(3,2); break;
+    case 321: runGame(3,2); break;
 
     // hard AI, Make-it Take-it mode
-    case 331: runOnePlayerGame(3,3); break;
+    case 331: runGame(3,3); break;
 
   }
 }
@@ -188,9 +186,11 @@ void Executive::run(){
 //  Players player2tmp;
 //  player1 = &player1tmp;
 //  player2 = &player2tmp;
-
- float gameMode = displayMenu();
- spawnGame(gameMode);
+int gameEncoding;
+ while(true) {
+   gameEncoding = displayMenu();
+   spawnGame(gameEncoding);
+ }
 //  setPlayer1Name();
 //  setPlayer2Name();
 
@@ -212,31 +212,25 @@ void Executive::run(){
 //   }
 //   run();
 }
-//Prompts player 1 to enter a name to be known by
-void Executive::setPlayer1Name(){
-    std::string player1Name = " ";
-    std::cout << "Enter the name of Player #1: ";
-    std::cin >> player1Name;
-    std::cout << "Welcome " << player1Name << "!\n";
-    player1->setID(player1Name);
+
+void Executive::runGame(int aiDifficulty, int gamemode) {
+  Players* p1, p2;
+  p1 = new Players();
+  if(aiDifficulty == 0) {
+    p2 = new Players();
+  } else {
+    p2 = new AI(aiDifficulty);
+  }
+
+  
+
+  p1->setIDinteractive();
+  p2->setIDinteractive(); // If AI, this does nothing
+
+  p1->setShips();
+
 }
 
-//Prompts player 2 to enter a name to be known by
-void Executive::setPlayer2Name(){
-    std::string player2Name = " ";
-    std::cout << "Enter the name of Player #2: ";
-    std::cin >> player2Name;
-    std::cout << "Welcome " << player2Name << "!\n";
-    player2->setID(player2Name);
-}
-//Returns player1's name
-void Executive::getP1Name(){
-    std::cout << player1->getID() << "\n";
-}
-//Returns player2's name
-void Executive::getP2Name(){
-    std::cout << player2->getID() << "\n";
-}
 //Prompts the user to enter how many ships to be used during the game
 //between 1 and 5 ships allowed. Prompts user until valid input is
 //establised

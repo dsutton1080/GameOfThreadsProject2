@@ -4,7 +4,7 @@
 #include "Players.h"
 class Executive{
 
-    private:     
+    private:
         ///Get the row number from user, Get the choice using in interface.
         int row, choice;
         ///Get the col char from user
@@ -43,30 +43,6 @@ class Executive{
         *     swapping turns for each player until the game is won
         **/
         void run();
-        /**
-        *@pre none
-        *@post none
-        *@post Prompts the user for a name for player 1
-        **/
-        void setPlayer1Name();
-        /**
-        *@pre none
-        *@post none
-        *@post Prompts the user for a name for player 2
-        **/
-        void setPlayer2Name();
-        /**
-        *@pre none
-        *@post none
-        *@post Returns the name of player 1 for display purposes
-        **/
-        void getP1Name();
-        /**
-        *@pre none
-        *@post none
-        *@post Returns the name of player 2 for display purposes
-        **/
-        void getP2Name();
         /**
         *@pre none
         *@post none
@@ -120,10 +96,7 @@ class Executive{
 
         void spawnGame(int gameEncoding);
 
-        void runTwoPlayerGame(int gamemode);
-
-        void runOnePlayerGame(int gamemode, int aiLevel);
-
+        void runGame(int gamemode, int aiLevel);
 
 };
 #endif
