@@ -6,8 +6,6 @@
 //Constructor of the Executive class
 Executive::Executive(){
   displayLogo();
-  row = numberOfShips = choice = 0;
-  column = ' ';
 }
 //Destructor of the Executive class
 Executive::~Executive(){
@@ -169,15 +167,6 @@ void Executive::spawnGame(int gameEncoding) {
   }
 }
 
-
-void Executive::runTwoPlayerGame(int gamemode) {
-  std::cout << "Two Player Game!\n";
-}
-
-void Executive::runOnePlayerGame(int gamemode, int aiLevel) {
-  std::cout << "One Player Game!\n";
-}
-
 //Handles processing the majority of the functionality within the game
 //Sets players name, calls the setShip method to begin setting the ships,
 //and handles swapping turns for each player until the game is won
@@ -222,19 +211,61 @@ void Executive::runGame(int aiDifficulty, int gamemode) {
     p2 = new AI(aiDifficulty);
   }
 
-  
+  int numShips = getNumberOfShips();
 
   p1->setIDinteractive();
   p2->setIDinteractive(); // If AI, this does nothing
 
-  p1->setShips();
+  p1->setShips(numShips);
+  p2->setShips(numShips);
 
+  switch (gamemode) {
+    // Normal Game Mode
+    case 1: runNormal(p1, p2); break;
+    // Special Shot Game Mode
+    case 2: runSpecialShot(p1, p2); break;
+    // Make-it Take-it Game Mode
+    case 3: runMakeItTakeIt(p1, p2); break;
+  }
+
+  delete p1;
+  delete p2;
+
+}
+
+void Executive::runNormal(Players* p1, Players* p2) {
+  while(true){
+        if(playerTurnProcedure(p1, p2)) break;
+        if(playerTurnProcedure(p2, p1)) break;
+    }
+}
+
+void Executive::runSpecialShot(Players* p1, Players* p2) {
+  Players* playersArr[2] = {p1, p2};
+  bool hasShots[2] = {true, true};
+  int i = 0;
+  while(true){
+    if(hasShots[i]){
+      if(promptSpecialShot()){
+        hasShots[i] = false;
+        specialShotProcedure(playersArr[i],playersArr[(i+1) % 2]);
+      } else {
+        playerTurnProcedure(playersArr[i],playersArr[(i+1) % 2]);
+      }
+    } else {
+      playerTurnProcedure(playersArr[i],playersArr[(i+1) % 2]);
+    }
+    i = (i + 1) % 2;
+  }
+}
+
+void Executive::runMakeItTakeIt(Players* p1, Players* p2) {
 }
 
 //Prompts the user to enter how many ships to be used during the game
 //between 1 and 5 ships allowed. Prompts user until valid input is
 //establised
-void Executive::getNumberOfShips(){
+int Executive::getNumberOfShips(){
   std::cout << "\n\nGreat! Now lets decide how many ships to play with.\n";
   std::cout << "The number of ships must be at least 1 and no more than 5.\n";
   std::cout << "Enter the number of ships(1-5): ";
@@ -247,6 +278,7 @@ void Executive::getNumberOfShips(){
     std::cout << "\nEnter the number of ships: ";
     std::cin >> numberOfShips;
   }
+  return numberOfShips;
 }
 //Prompts the user to enter what column is to be targeted
 //Prompts user until valid input is established
@@ -310,8 +342,8 @@ void Executive::guessFeedbackMsg(bool status){
 bool Executive::playerTurnProcedure(Players* current, Players* other) {
   current->getBoards();
   std::cout << "\n" << current->getID() << " it's your turn!\n";
-  getColumn();
-  getRow();
+  char column = getColumn();
+  int row = getRow();
   bool hitStatus = false;
   if(other->getHit(column, row) == true){
       hitStatus = true;
