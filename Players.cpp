@@ -223,3 +223,11 @@ int Players::charConvert(char temp){
 void Players::cleanBoard(){
   myBoard->clearBoards();
 }
+
+void setIDinteractive() {
+  std::string name = " ";
+  std::cout << "Enter the name of Player #1: ";
+  std::cin >> name;
+  std::cout << "Welcome " << player1Name << "!\n";
+  this->setID(name);
+}
