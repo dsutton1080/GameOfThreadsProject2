@@ -4,11 +4,11 @@
 #include "Players.h"
 class AI : public Players {
 private:
-	std::string difficulty;
+	int difficulty;
 
 public:
 	AI();
-	void randomShipPlacement(int numShips);
+	void setShips(int);
 };
 #endif
 

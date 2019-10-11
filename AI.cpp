@@ -6,7 +6,7 @@ AI::AI() : Players() {
 	srand(time(NULL));
 }
 
-void AI::randomShipPlacement(int numShips) {
+void AI::setShips(int numShips) {
 	int row, col; 
 	char directions[] = { 'u', 'd', 'l', 'r' }; 
 	char dir;
@@ -70,6 +70,5 @@ void AI::randomShipPlacement(int numShips) {
 	delete[] markedCols;
 	delete[] markedRows;
 
-	myBoard->displayDefensiveBoard();
-	myBoard->clearBoards();
+	this->allSet = true;
 }
