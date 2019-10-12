@@ -29,7 +29,7 @@ class Executive{
       /**
        *@brief Let's the user see if they hit or miss.
        */
-      void guessFeedbackMsg(bool status);
+      void guessFeedbackMsg(bool status, int row, char col);
       /**
        *@brief The sequence procedure performed by each player on their turn.
        * This is to factor out the repetitive code.
@@ -57,6 +57,12 @@ class Executive{
       void runSpecialShot(Players* p1, Players* p2);
 
       void runMakeItTakeIt(Players* p1, Players* p2);
+
+      bool promptSpecialShot(Players* p);
+
+      int promptSpecialShotSelection(Players* p);
+
+      void printSpecialShotOption(int option);
 
     public:
         /**

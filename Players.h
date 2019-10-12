@@ -46,11 +46,11 @@ public:
 	/**
 	 *@brief Gets which column the user wants the ship in.
 	 */
-	void getColumn();
+	char getColumn();
 	/**
 	 *@brief Gets which row the user wants the ship in.
 	 */
-	void getRow();
+	int getRow();
 	/**
 	 *@pre Number of ships being placed known.
 	 *@post All ships are placed on the board.
@@ -105,14 +105,11 @@ public:
 	 */
 	void markTheirMisses(char, int);
 	/**
-	 *@pre Column character is given by user.
-	 *@post Character is converted into a numerical value.
-	 */
-	int charConvert(char);
-	/**
 	 *@pre Game is finished, and another is wanting to begin.
 	 *@post Board is cleaned off.
 	 */
 	void cleanBoard();
+
+	virtual bool isAI();
 };
 #endif

@@ -2,8 +2,9 @@
 #include <stdlib.h>
 #include <time.h>
 
-AI::AI() : Players() {
+AI::AI(int difficulty) : Players() {
 	srand(time(NULL));
+	this->difficulty = difficulty;
 }
 
 void AI::setShips(int numShips) {
@@ -71,4 +72,8 @@ void AI::setShips(int numShips) {
 	delete[] markedRows;
 
 	this->allSet = true;
+}
+
+bool AI::isAI() {
+	return true;
 }

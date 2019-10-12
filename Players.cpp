@@ -1,4 +1,5 @@
 #include "Players.h"
+#include "Utils.cpp"
 
 Players::Players(){
     ID = " ";
@@ -194,44 +195,19 @@ bool Players::getHit(char column, int row){
         return false;
     }
 }
-//Converts the letter for column into a number
-int Players::charConvert(char temp){
-  int columnNumber = 0;
-  if(temp == 'A' || temp == 'a'){
-    columnNumber = 0;
-  }
-  if(temp == 'B' || temp == 'b'){
-    columnNumber = 1;
-  }
-  if(temp == 'C' || temp == 'c'){
-    columnNumber = 2;
-  }
-  if(temp == 'D' || temp == 'd'){
-    columnNumber = 3;
-  }
-  if(temp == 'E' || temp == 'e'){
-    columnNumber = 4;
-  }
-  if(temp == 'F' || temp == 'f'){
-    columnNumber = 5;
-  }
-  if(temp == 'G' || temp == 'g'){
-    columnNumber = 6;
-  }
-  if(temp == 'H' || temp == 'h'){
-    columnNumber = 7;
-  }
-  return columnNumber;
-}
 
 void Players::cleanBoard(){
   myBoard->clearBoards();
 }
 
-void setIDinteractive() {
+void Players::setIDinteractive() {
   std::string name = " ";
   std::cout << "Enter the name of this player: ";
   std::cin >> name;
   std::cout << "Welcome " << name << "!\n";
   this->setID(name);
+}
+
+bool Players::isAI() {
+  return false;
 }

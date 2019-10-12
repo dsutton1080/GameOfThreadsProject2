@@ -2,6 +2,7 @@
 #include <fstream>
 #include <string>
 #include "Executive.h"
+#include "Utils.cpp"
 
 //Constructor of the Executive class
 Executive::Executive(){
@@ -171,39 +172,16 @@ void Executive::spawnGame(int gameEncoding) {
 //Sets players name, calls the setShip method to begin setting the ships,
 //and handles swapping turns for each player until the game is won
 void Executive::run(){
-//  Players player1tmp;
-//  Players player2tmp;
-//  player1 = &player1tmp;
-//  player2 = &player2tmp;
 int gameEncoding;
  while(true) {
    gameEncoding = displayMenu();
    spawnGame(gameEncoding);
  }
-//  setPlayer1Name();
-//  setPlayer2Name();
-
-//  getNumberOfShips();
-
-//  player1->setShips(numberOfShips);
-//  clearScreen();
-//  player2->setShips(numberOfShips);
-//  clearScreen();
-//  //Swaps between players 1 and 2, giving each a chance to "shoot"
-//  //at the opponents board. Informs the user if their shot was a hit
-//  //or a miss
-//  std::cout << "The ships are set and its time for the game to begin!\n";
-//  std::cout << "Let's play some BATTLESHIP!!\n";
-
-//   while(true){
-//       if(playerTurnProcedure(player1, player2)) break;
-//       if(playerTurnProcedure(player2, player1)) break;
-//   }
-//   run();
 }
 
 void Executive::runGame(int aiDifficulty, int gamemode) {
-  Players* p1, p2;
+  Players* p1;
+  Players* p2;
   p1 = new Players();
   if(aiDifficulty == 0) {
     p2 = new Players();
@@ -246,7 +224,7 @@ void Executive::runSpecialShot(Players* p1, Players* p2) {
   int i = 0;
   while(true){
     if(hasShots[i]){
-      if(promptSpecialShot()){
+      if(promptSpecialShot(playersArr[i])){
         hasShots[i] = false;
         specialShotProcedure(playersArr[i],playersArr[(i+1) % 2]);
       } else {
@@ -269,6 +247,7 @@ void Executive::runMakeItTakeIt(Players* p1, Players* p2) {
 //between 1 and 5 ships allowed. Prompts user until valid input is
 //establised
 int Executive::getNumberOfShips(){
+  int numberOfShips = 0;
   std::cout << "\n\nGreat! Now lets decide how many ships to play with.\n";
   std::cout << "The number of ships must be at least 1 and no more than 5.\n";
   std::cout << "Enter the number of ships(1-5): ";
@@ -341,13 +320,60 @@ bool Executive::playerTurnProcedure(Players* current, Players* other) {
   return(false);
 }
 
+bool Executive::promptSpecialShot(Players* p) {
+  if(p->isAI()) {
+    return(rand() % 2 == 1 ? true : false);
+  } else {
+    char input = ' ';
+    while(true) {
+      std::cout << "Use your special shot? (y/n): ";
+      std::cin >> input;
+      if(input == 'Y' || input == 'y') return true;
+      else if(input == 'N' || input == 'n') return false;
+      std::cout << "\nInvalid input. Please enter 'y' or 'n'.\n";
+    }
+  }
+}
+
+int Executive::promptSpecialShotSelection(Players* p) {
+  if(p->isAI()) {
+    return((rand() % 4) + 1);
+  } else {
+    int input = 0;
+    std::cout << "\nPlease make a selection for your type of special shot: \n";
+    std::cout << "1.\n"; printSpecialShotOption(1);
+    std::cout << "\n\n2.\n"; printSpecialShotOption(2);
+    std::cout << "\n\n3.\n"; printSpecialShotOption(3);
+    std::cout << "\n\n4.\n"; printSpecialShotOption(4);
+    while(true) {
+      std::cin >> input;
+      if(input > 0 && input < 5) return input;
+      else std::cout << "\nInvalid input. Valid entries are 1-4. Input: ";
+    }
+  }
+}
+
+void Executive::printSpecialShotOption(int option) {
+  Coord* coords = specialShotToCoords(option, {2,2});
+  for(int i = 0; i < 5; i++) {
+    for(int j = 0; j < 5; j++) {
+      if(isInCoords(coords, i, j)) std::cout << "+";
+      else std::cout << "~";
+    }
+    std::cout << "\n";
+  }
+  delete[] coords;
+}
+
 // bool Executive::specialShotProcedure(Players* current, Players* other) {
 //   current->getBoards();
-//   std::cout << "\n" << current->getID() << " it's your turn! This is a special shot!\n";
-//   int shotEncoding = promptSpecialShotSelection();
-//   std::cout << "\n
-//   char column = getColumn();
-//   int row = getRow();
-//   int* shotAtRows = getSpecialShotRows(row, col)
-//   char* shotAtCols =
+//   int shotEncoding = promptSpecialShotSelection(current);
+
+
+//   do {
+
+//   }while(!validCenterCoord);
+//   int column = charConvert(current->getColumn());
+//   int row = current->getRow();
+  
 // }

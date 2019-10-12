@@ -7,8 +7,9 @@ private:
 	int difficulty;
 
 public:
-	AI();
+	AI(int difficulty);
 	void setShips(int);
+	bool isAI();
 };
 #endif
 
