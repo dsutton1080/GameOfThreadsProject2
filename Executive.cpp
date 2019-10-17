@@ -302,6 +302,10 @@ bool Executive::playerTurnProcedure(Players* current, Players* other) {
       other->markMyHits(column, row);
       current->markTheirHits(column, row);
 
+      // if(other->hasShipSunk() == true){
+
+      }
+
       if(other->hasLost() == true){
         current->markMyHits(column, row);
         std::cout << current->getID() << " has won the game!!!\n";

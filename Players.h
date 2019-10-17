@@ -111,5 +111,8 @@ public:
 	void cleanBoard();
 
 	virtual bool isAI();
+
+	// Did the last guess by the other player sink this player's ship?
+	// bool hasShipSunk();
 };
 #endif

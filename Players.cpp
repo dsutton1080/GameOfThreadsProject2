@@ -2,7 +2,7 @@
 #include "Utils.cpp"
 
 Players::Players(){
-    ID = " ";
+  ID = " ";
 	myBoard = new Boards();
 	allSet = false;
 }
@@ -211,3 +211,8 @@ void Players::setIDinteractive() {
 bool Players::isAI() {
   return false;
 }
+
+// bool Players::hasShipSunk() {
+
+
+// }
