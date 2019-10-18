@@ -8,13 +8,15 @@ class AI : public Players {
 private:
 	int difficulty;
 	/*---------------------------------------
-	The following are variables used for 
+	The following are variables used for
 	mediumGuess() method
 	----------------------------------------*/
-	bool lastGuessSunkShip;
-	bool horizChecked, vertChecked;
+	bool lastHitSunkShip;
+	bool lastGuessWasHit;
+	bool horizChecked;;
 	int offset;
 	int offsetSign;
+	Coord firstHitOnShip;
 	//----------------------------------------
 
 public:
@@ -22,7 +24,7 @@ public:
 	void setShips(int);
 	bool isAI();
 
-	/* 
+	/*
 	- Invoked when its the AI's turn
 	- Returns a 'Coord' struct containing the "row" and "col" properties (both of type int)
 	- The returned Coord object should have both row, col in the range 0-7
@@ -43,6 +45,7 @@ public:
 	// Must use the pointer to the other player to know where the other player's ships are.
 	// Be sure to keep straight which spots on the other player's have already been guessed 
 	Coord hardGuess(Players* otherPlayer);
+
+	void takeTurn(Players* otherPlayer);
 };
 #endif
-
