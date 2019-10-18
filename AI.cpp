@@ -77,3 +77,15 @@ void AI::setShips(int numShips) {
 bool AI::isAI() {
 	return true;
 }
+
+Coord AI::easyGuess() {
+
+}
+
+Coord AI::mediumGuess() {
+
+}
+
+Coord AI::easyGuess() {
+
+}

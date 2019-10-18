@@ -7,6 +7,15 @@
 class AI : public Players {
 private:
 	int difficulty;
+	/*---------------------------------------
+	The following are variables used for 
+	mediumGuess() method
+	----------------------------------------*/
+	bool lastGuessSunkShip;
+	bool horizChecked, vertChecked;
+	int offset;
+	int offsetSign;
+	//----------------------------------------
 
 public:
 	AI(int difficulty);
