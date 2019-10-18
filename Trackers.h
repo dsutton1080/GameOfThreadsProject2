@@ -8,7 +8,7 @@ class CoordHitTracker {
         Coord coord;
         bool hit;
     public:
-        CoordHitTracker();
+        CoordHitTracker(Coord c);
         bool isHit();
         bool attemptHit(Coord c);
         Coord getCoord();
@@ -21,15 +21,26 @@ class ShipTracker {
         int hitNum;
         bool sunk;
     public:
-        ShipTracker(int size);
+        ShipTracker(Coord* coordArr, int size);
         ~ShipTracker();
         bool attemptHit(Coord c);
         bool isSunk();
 };
 
 class FleetTracker {
-    
-}
+    private:
+        ShipTracker* shipTrackers;
+        int size;
+        int sunkNum;
+        bool sunkLastGuess;
+        bool allSunk;
+    public:
+        FleetTracker(int size);
+        ~FleetTracker();
+        bool attemptHit(Coord c);
+        bool sunkOnLastGuess();
+        bool isFleetSunk();
+};
 
 
 #endif

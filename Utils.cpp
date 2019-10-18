@@ -2,9 +2,16 @@
 #define UITLS
 
 struct Coord {
-    int row;
-    int col;
+  int row;
+  int col;
+
+  bool operator ==(Coord c) const {
+    if(c.row == row && c.col == col) return true;
+    else return false;
+  }
 };
+
+
 
 // Returns whether a coordinate object falls within the specified bounds (inclusive)
 bool isCoordInBounds(Coord c, int rowLow, int rowHigh, int colLow, int colHigh) {
