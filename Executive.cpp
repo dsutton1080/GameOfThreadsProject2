@@ -228,18 +228,25 @@ void Executive::runSpecialShot(Players* p1, Players* p2) {
         hasShots[i] = false;
         specialShotProcedure(playersArr[i],playersArr[(i+1) % 2]);
       } else {
-        playerTurnProcedure(playersArr[i],playersArr[(i+1) % 2]);
+        if(playerTurnProcedure(playersArr[i],playersArr[(i+1) % 2])) break;
       }
     } else {
-      playerTurnProcedure(playersArr[i],playersArr[(i+1) % 2]);
+      if(playerTurnProcedure(playersArr[i],playersArr[(i+1) % 2])) break;
     }
     i = (i + 1) % 2;
   }
 }
 
 void Executive::runMakeItTakeIt(Players* p1, Players* p2) {
+  Players* players[2] = {p1, p2};
+  int i = 0;
+  bool stay = false;
+
   while(true){
-        //
+        stay = false;
+        if(playerTurnProcedure(players[i], players[(i+1) % 2])) break;
+        else if(players[i]->didHitPrev()) stay = true;
+        if(!stay) i = (i + 1) % 2;
     }
 }
 

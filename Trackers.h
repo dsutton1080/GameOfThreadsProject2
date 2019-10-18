@@ -34,12 +34,14 @@ class FleetTracker {
         int sunkNum;
         bool sunkLastGuess;
         bool allSunk;
+        bool lastGuessHit;
     public:
         FleetTracker(int size);
         ~FleetTracker();
         bool attemptHit(Coord c);
         bool sunkOnLastGuess();
         bool isFleetSunk();
+        bool hitOnLastGuess();
 };
 
 

@@ -212,7 +212,6 @@ bool Players::isAI() {
   return false;
 }
 
-// bool Players::hasShipSunk() {
-
-
-// }
+bool Players::wasHitPrev() {
+  return fleetTracker.hitOnLastGuess();
+}

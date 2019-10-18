@@ -2,6 +2,7 @@
 #define PLAYERS_H
 
 #include "Boards.h"
+#include "Trackers.h"
 
 class Players{
 protected:
@@ -9,6 +10,8 @@ protected:
 	Boards* myBoard;
 	///String that save player's desire name
 	std::string ID;
+
+	FleetTracker fleetTracker;
 	///row number for hitting ships
 	int row;
 	///col char for hitting ships
@@ -112,7 +115,6 @@ public:
 
 	virtual bool isAI();
 
-	// Did the last guess by the other player sink this player's ship?
-	// bool hasShipSunk();
+	bool wasHitPrev();
 };
 #endif
