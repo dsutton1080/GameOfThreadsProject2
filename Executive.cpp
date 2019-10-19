@@ -186,7 +186,7 @@ void Executive::runGame(int aiDifficulty, int gamemode) {
   if(aiDifficulty == 0) {
     p2 = new Players();
   } else {
-    p2 = new AI(aiDifficulty);
+    p2 = new AI(aiDifficulty, p1);
   }
 
   int numShips = getNumberOfShips();

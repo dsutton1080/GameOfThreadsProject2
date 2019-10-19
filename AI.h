@@ -7,6 +7,7 @@
 class AI : public Players {
 private:
 	int difficulty;
+	Players* otherPlayer;
 	/*---------------------------------------
 	The following are variables used for
 	mediumGuess() method
@@ -20,7 +21,7 @@ private:
 	//----------------------------------------
 
 public:
-	AI(int difficulty);
+	AI(int difficulty, Players* otherPlayer);
 	void setShips(int);
 	bool isAI();
 
@@ -44,8 +45,8 @@ public:
 
 	// Must use the pointer to the other player to know where the other player's ships are.
 	// Be sure to keep straight which spots on the other player's have already been guessed 
-	Coord hardGuess(Players* otherPlayer);
+	Coord hardGuess();
 
-	void takeTurn(Players* otherPlayer);
+	void takeTurn();
 };
 #endif

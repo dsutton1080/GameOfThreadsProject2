@@ -2,9 +2,10 @@
 #include <stdlib.h>
 #include <time.h>
 
-AI::AI(int difficulty) : Players() {
+AI::AI(int difficulty, Players* otherPlayer) : Players() {
 	srand(time(NULL));
 	this->difficulty = difficulty;
+	this->otherPlayer = otherPlayer;
 
 	//Initialize variables needed for medium difficulty
 	//-------------------------------------------------
@@ -163,11 +164,11 @@ Coord AI::mediumGuess() {
 	}
 }
 
-Coord AI::hardGuess(Players* otherPlayer) {
+Coord AI::hardGuess() {
 
 }
 
-void AI::takeTurn(Players* otherPlayer) {
+void AI::takeTurn() {
 	Coord guess;
 	switch (difficulty) {
 	case 1:
@@ -177,7 +178,7 @@ void AI::takeTurn(Players* otherPlayer) {
 		guess = this->mediumGuess();
 		break;
 	case 3:
-		guess = this->hardGuess(otherPlayer);
+		guess = this->hardGuess();
 		break;
 	}
 
