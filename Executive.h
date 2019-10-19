@@ -1,6 +1,7 @@
 #ifndef EXECUTIVE_H
 #define EXECUTIVE_H
 #include "Boards.h"
+#include "Utils.cpp"
 #include "Players.h"
 #include "AI.h"
 
@@ -30,12 +31,16 @@ class Executive{
        *@brief Let's the user see if they hit or miss.
        */
       void guessFeedbackMsg(bool status, int row, char col);
+
+      void sunkFeedbackMsg(int shipSize);
       /**
        *@brief The sequence procedure performed by each player on their turn.
        * This is to factor out the repetitive code.
        *@return A boolean indicating if the current turn ended the game
        */
       bool playerTurnProcedure(Players* current, Players* other);
+
+      bool specialShotProcedure(Players* current, Players* other);
 
       /**
       *@pre none

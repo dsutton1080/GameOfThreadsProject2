@@ -10,8 +10,8 @@ protected:
 	Boards* myBoard;
 	///String that save player's desire name
 	std::string ID;
-
-	FleetTracker fleetTracker;
+	// 
+	FleetTracker* fleetTracker;
 	///row number for hitting ships
 	int row;
 	///col char for hitting ships
@@ -115,6 +115,13 @@ public:
 
 	virtual bool isAI();
 
+	// returns a bool indicating whether this player was hit on the last shot
 	bool wasHitPrev();
+
+	// returns an int 1-5 (or 0) indicating the size of the last sunk ship
+	int wasSunkPrev();
+
+	// points the fleetTracker pointer to a new fleet instance
+	void initializeFleet(int size);
 };
 #endif

@@ -8,6 +8,7 @@ Players::Players(){
 }
 Players::~Players(){
 	delete myBoard;
+  delete fleetTracker;
 	ID = " ";
 }
 void Players::setID(std::string name){
@@ -213,5 +214,13 @@ bool Players::isAI() {
 }
 
 bool Players::wasHitPrev() {
-  return fleetTracker.hitOnLastGuess();
+  return fleetTracker->hitOnLastGuess();
+}
+
+int Players::wasSunkPrev() {
+  return fleetTracker->sunkOnLastGuess();
+}
+
+void Players::initializeFleet(int size) {
+  this->fleetTracker = new FleetTracker(size);
 }

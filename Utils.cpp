@@ -1,6 +1,9 @@
 #ifndef UTILS
 #define UITLS
 
+#include <string>
+#include <iostream>
+
 struct Coord {
   int row;
   int col;
@@ -63,8 +66,6 @@ Coord* specialShotToCoords(int shotType, Coord center) {
     }
 }
 
-
-
 Coord* coordsFromRowColOffsets(Coord c, Coord offsets[]) {
     Coord* arr = new Coord[9];
     for(int i = 0; i < 9; i++) {
@@ -78,6 +79,42 @@ bool isInCoords(Coord coords[], int row, int col) {
         if(coords[i].row == row && coords[i].col == col) return true;
     }
     return false;
+}
+
+bool isValidCenterSpecialShotCoord(Coord c, int shotEncoding) {
+  if(shotEncoding == 1) {
+    return isCoordInBounds(c, 1, 6, 1, 6);
+  }
+  return isCoordInBounds(c, 2, 5, 2, 5);
+}
+
+int getRowInput(std::string msg, int min, int max) {
+  int row = 0;
+    std::cout << msg;
+    std::cin >> row;
+    while (std::cin.fail() || row < min || row > max){
+      std::cin.clear();
+      std::cin.ignore(INT8_MAX, '\n');
+      std::cout << "Invalid selection, try again.\n";
+      std::cout << "Enter a valid row number: ";
+      std::cin >> row;
+    }
+    return row;
+}
+
+char getColumnInput(std::string msg, int min, int max){
+    char column = ' ';
+    std::cout << msg;
+    std::cin >> column;
+    column = (toupper(column));
+
+    while(column < (min + 65) || column > (max + 65)){
+      std::cout << "Invalid selection, try again\n";
+      std::cout << "Enter a valid column letter: ";
+      std::cin >> column;
+      column = (toupper(column));
+    }
+    return column;
 }
 
 //Converts the letter for column into a number
@@ -110,8 +147,30 @@ int charConvert(char temp){
   return columnNumber;
 }
 
+char charConvertInverse(int n) {
+  switch(n) {
+    case 0: return 'A';
+    case 1: return 'B';
+    case 2: return 'C';
+    case 3: return 'D';
+    case 4: return 'E';
+    case 5: return 'F';
+    case 6: return 'G';
+    case 7: return 'H';
+  }
+  return 'Z';
+}
 
-
+std::string toShipName(int i) {
+  switch(i) {
+    case 1: return "Submarine";
+    case 2: return "Destroyer";
+    case 3: return "Cruiser";
+    case 4: return "Battleship";
+    case 5: return "Carrier";
+  }
+  return "invalid ship length";
+}
 
 
 #endif
