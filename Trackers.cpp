@@ -21,9 +21,7 @@ Coord CoordHitTracker::getCoord() {
     return coord;
 }
 
-
-
-ShipTracker::ShipTracker(std::vector<CoordHitTracker>* coordHitVectPtr) {
+ShipTracker::ShipTracker(std::vector<CoordHitTracker*>* coordHitVectPtr) {
     this->coordTrackersPtr = coordHitVectPtr;
     this->length = this->coordTrackersPtr->size();
     this->hitNum = 0;
@@ -35,7 +33,7 @@ ShipTracker::~ShipTracker() {
 
 bool ShipTracker::attemptHit(Coord c) {
     for(int i = 0; i < this->length; i++) {
-        if(this->coordTrackersPtr->at(i).attemptHit(c)) {
+        if(this->coordTrackersPtr->at(i)->attemptHit(c)) {
             this->hitNum++;
             return true;
         } 
@@ -67,6 +65,7 @@ bool FleetTracker::attemptHit(Coord c) {
     for(int i = 0; i < this->size; i++) {
         if(this->shipTrackersPtrsPtr->at(i)->attemptHit(c)) {
             this->lastGuessHit = true;
+            this->lastCoordHit = c;
             if(this->shipTrackersPtrsPtr->at(i)->isSunk()) {
                 this->lastGuessSunkLength = this->shipTrackersPtrsPtr->at(i)->getLength();
                 this->sunkNum++;
@@ -77,10 +76,11 @@ bool FleetTracker::attemptHit(Coord c) {
             this->lastGuessSunkLength = 0;
         }
     }
+    return false;
 }
 
 bool FleetTracker::sunkOnLastGuess() {
-    return(this->sunkLengthOnLastGuess > 0);
+    return(this->lastGuessSunkLength > 0);
 }
 
 int FleetTracker::sunkLengthOnLastGuess() {
@@ -93,4 +93,8 @@ bool FleetTracker::hitOnLastGuess() {
 
 bool FleetTracker::isFleetSunk() {
     return(this->sunkNum >= this->size);
+}
+
+Coord FleetTracker::getLastCoordHit() {
+    return(this->lastCoordHit);
 }

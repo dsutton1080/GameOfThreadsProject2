@@ -76,7 +76,7 @@ public:
 	/**
 	 *@brief IO interaction to set the player's name
 	 */
-	void setIDinteractive();
+	virtual void setIDinteractive();
 
 	/************************************
 	 * Functions
@@ -125,5 +125,18 @@ public:
 
 	// updates the fleet tracker by giving it a guess Coord
 	void trackShot(Coord c);
+
+	Coord getLastHitCoord(); 
+
+	virtual Coord takeTurn();
+
+	virtual Coord takeSpecialShot();
+
+	virtual void guessFeedbackSignal();
+
+	bool hasGuessedCoord(Coord c);
+
+	char getLocationChar(int row, int col);
+
 };
 #endif

@@ -1,8 +1,5 @@
 #ifndef EXECUTIVE_H
 #define EXECUTIVE_H
-#include "Boards.h"
-#include "Utils.cpp"
-#include "Players.h"
 #include "AI.h"
 
 class Executive{
@@ -64,6 +61,10 @@ class Executive{
       void runMakeItTakeIt(Players* p1, Players* p2);
 
       bool promptSpecialShot(Players* p);
+
+      Coord promptGuess(Players* current);
+
+      Coord promptSpecialShotCenterCoord(Players* current);
 
       int promptSpecialShotSelection(Players* p);
 

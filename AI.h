@@ -2,7 +2,6 @@
 #define AI_H
 
 #include "Players.h"
-#include "Utils.cpp"
 
 class AI : public Players {
 private:
@@ -21,7 +20,7 @@ private:
 	//----------------------------------------
 
 public:
-	AI(int difficulty, Players* otherPlayer);
+	AI(int difficulty, Players* otherPlayerPtr);
 	void setShips(int);
 	bool isAI();
 
@@ -47,6 +46,11 @@ public:
 	// Be sure to keep straight which spots on the other player's have already been guessed 
 	Coord hardGuess();
 
-	void takeTurn();
+	// returns the Coord to be guessed based on the AI difficulty
+	Coord takeTurn();
+
+	Coord takeSpecialShot();
+
+	void guessFeedbackSignal();
 };
 #endif

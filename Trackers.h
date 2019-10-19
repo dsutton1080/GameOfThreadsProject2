@@ -1,7 +1,7 @@
 #ifndef TRACKERS_H
 #define TRACKERS_H
 
-#include "Utils.cpp"
+#include "Utils.h"
 
 class CoordHitTracker {
     private:
@@ -16,11 +16,11 @@ class CoordHitTracker {
 
 class ShipTracker {
     private:
-        std::vector<CoordHitTracker>* coordTrackersPtr;
+        std::vector<CoordHitTracker*>* coordTrackersPtr;
         int length;
         int hitNum;
     public:
-        ShipTracker(std::vector<CoordHitTracker>* coordHitVectPtr);
+        ShipTracker(std::vector<CoordHitTracker*>* coordHitVectPtr);
         ~ShipTracker();
         bool attemptHit(Coord c);
         bool isSunk();
@@ -34,6 +34,7 @@ class FleetTracker {
         int sunkNum;
         int lastGuessSunkLength;
         bool lastGuessHit;
+        Coord lastCoordHit;
     public:
         FleetTracker(std::vector<ShipTracker*>* trackerPtr);
         ~FleetTracker();
@@ -42,6 +43,7 @@ class FleetTracker {
         int sunkLengthOnLastGuess();
         bool isFleetSunk();
         bool hitOnLastGuess();
+        Coord getLastCoordHit();
 };
 
 

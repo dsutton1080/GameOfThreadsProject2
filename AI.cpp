@@ -2,10 +2,11 @@
 #include <stdlib.h>
 #include <time.h>
 
-AI::AI(int difficulty, Players* otherPlayer) : Players() {
+AI::AI(int difficulty, Players* otherPlayerPtr) {
 	srand(time(NULL));
+	this->ID = "AI";
 	this->difficulty = difficulty;
-	this->otherPlayer = otherPlayer;
+	this->otherPlayer = otherPlayerPtr;
 
 	//Initialize variables needed for medium difficulty
 	//-------------------------------------------------
@@ -87,7 +88,13 @@ bool AI::isAI() {
 }
 
 Coord AI::easyGuess() {
-
+	int row, col;
+	do {
+		row = rand() % 8;
+		col = rand() % 8;
+	} while(this->hasGuessedCoord(Coord {row, col}));
+	
+	return Coord {row, col};
 }
 
 
@@ -105,7 +112,7 @@ Coord AI::mediumGuess() {
 	// until a ship sinks
 	else {
 		row = firstHitOnShip.row; //Row of the first guess that hit current ship
-		col = firstHitOnShip.col; //Col if the last guess that hit current ship
+		col = firstHitOnShip.col; //Col of the last guess that hit current ship
 
 		//Loop until next generated row and col are within bounds (0 - 7)
 		while (!validGuess) {
@@ -165,11 +172,16 @@ Coord AI::mediumGuess() {
 }
 
 Coord AI::hardGuess() {
-
+	for(int i = 0; i < 8; i++) {
+		for(int j = 0; j < 8; j++) {
+			if(this->otherPlayer->getLocationChar(i, j) == 'S') return Coord {i, j};
+		}
+	}
 }
 
-void AI::takeTurn() {
+Coord AI::takeTurn() {
 	Coord guess;
+
 	switch (difficulty) {
 	case 1:
 		guess = this->easyGuess();
@@ -201,4 +213,13 @@ void AI::takeTurn() {
 	to determine where the next guess is in relation
 	to firstHitOnShip.
 	-----------------------------------------------------*/
+	return guess;
+}
+
+Coord AI::takeSpecialShot() {return takeTurn();}
+
+void AI::guessFeedbackSignal() {
+	if(!lastGuessWasHit && otherPlayer->wasHitPrev()) this->firstHitOnShip = otherPlayer->getLastHitCoord();
+	this->lastGuessWasHit = otherPlayer->wasHitPrev();
+	this->lastHitSunkShip = otherPlayer->wasSunkPrev();
 }

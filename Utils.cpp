@@ -1,21 +1,11 @@
-#ifndef UTILS
-#define UITLS
 
-#include <string>
-#include <iostream>
-#include <vector>
-
-struct Coord {
-  int row;
-  int col;
-
-  bool operator ==(Coord c) const {
-    if(c.row == row && c.col == col) return true;
-    else return false;
-  }
-};
+#include "Utils.h"
 
 
+bool Coord::operator==(Coord c) const {
+  if(c.row == row && c.col == col) return true;
+  else return false;
+}
 
 // Returns whether a coordinate object falls within the specified bounds (inclusive)
 bool isCoordInBounds(Coord c, int rowLow, int rowHigh, int colLow, int colHigh) {
@@ -44,6 +34,14 @@ bool isValidCenterCoord(Coord c, int specialShotType) {
     return specialShotType == 1 ? isCoordInBounds(c, 1, 6, 1, 6) : isCoordInBounds(c, 2, 5, 2, 5); 
 }
 
+Coord* coordsFromRowColOffsets(Coord c, Coord* offsets) {
+    Coord* arr = new Coord[9];
+    for(int i = 0; i < 9; i++) {
+        arr[i] = Coord {c.row + offsets[i].row, c.col + offsets[i].col};
+    }
+    return arr;
+}
+
 // Returns a list of Coord objects given the shot type and a center Coord
 Coord* specialShotToCoords(int shotType, Coord center) {
     switch (shotType)
@@ -65,14 +63,6 @@ Coord* specialShotToCoords(int shotType, Coord center) {
             return coordsFromRowColOffsets(center, arr);
         }
     }
-}
-
-Coord* coordsFromRowColOffsets(Coord c, Coord offsets[]) {
-    Coord* arr = new Coord[9];
-    for(int i = 0; i < 9; i++) {
-        arr[i] = Coord {c.row + offsets[i].row, c.col + offsets[i].col};
-    }
-    return arr;
 }
 
 bool isInCoords(Coord coords[], int row, int col) {
@@ -164,14 +154,12 @@ char charConvertInverse(int n) {
 
 std::string toShipName(int i) {
   switch(i) {
-    case 1: return "Submarine";
-    case 2: return "Destroyer";
-    case 3: return "Cruiser";
-    case 4: return "Battleship";
-    case 5: return "Carrier";
+    case 1: return("Submarine");
+    case 2: return("Destroyer");
+    case 3: return("Cruiser");
+    case 4: return("Battleship");
+    case 5: return("Carrier");
   }
-  return "invalid ship length";
+  return("invalid ship length");
 }
 
-
-#endif

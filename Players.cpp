@@ -1,5 +1,4 @@
 #include "Players.h"
-#include "Utils.cpp"
 
 Players::Players(){
   ID = " ";
@@ -27,16 +26,18 @@ void Players::setShips(int number){
   std::cout << "Placing a ship diagonally is not allowed.\n";
   int tempRow;
   char tempColumn = ' ';
-  std::vector<CoordHitTracker>* coordTrackerVectPtr = nullptr;
+  std::vector<CoordHitTracker*>* coordTrackerVectPtr = nullptr;
   std::vector<ShipTracker*>* shipTrackerVectPtr = nullptr;
   for(int i = 0; i < number; i++){
-    coordTrackerVectPtr = new std::vector<CoordHitTracker>;
+    coordTrackerVectPtr = new std::vector<CoordHitTracker*>;
     if(i == 0){
       std::cout << "\n\nThis ship is a 1 X " << i+1 << " ship.\n";
       myBoard->displayDefensiveBoard();
       column = getColumn();
       row = getRow();
       myBoard->markShips(charConvert(column), row);
+      coordTrackerVectPtr->push_back(new CoordHitTracker(Coord {row, column}));
+      shipTrackerVectPtr->push_back(new ShipTracker(coordTrackerVectPtr));
     }
     else{
       std::cout << "\nThis ship is a 1 X " << i+1 << " ship.\n";
@@ -51,6 +52,7 @@ void Players::setShips(int number){
           std::cout << orientation << "\n";
       }
       for(int j = 0; j < i+1; j++){
+          coordTrackerVectPtr = new std::vector<CoordHitTracker*>;
           if(j == 0){
             std::cout << "This is the first section to be placed.\n";
           }
@@ -93,7 +95,6 @@ void Players::setShips(int number){
                 }
               }
               else{
-                  myBoard->markShips(charConvert(column), row);
                   std::cout << "Ship section set!\n";
               }
           }
@@ -120,17 +121,16 @@ void Players::setShips(int number){
               }
             }
             else{
-                myBoard->markShips(charConvert(column), row);
                 std::cout << "Ship section set!\n";
-                CoordHitTracker tmp = CoordHitTracker(Coord {row, column});
-                coordTrackerVectPtr->push_back(tmp);
             }
+
         }
+        myBoard->markShips(charConvert(column), row);
+        coordTrackerVectPtr->push_back(new CoordHitTracker(Coord {row, column}));
         tempRow = row;
         tempColumn = (toupper(column));
       }
-      ShipTracker* tmp2 = new ShipTracker(coordTrackerVectPtr);
-      shipTrackerVectPtr->push_back(tmp2);
+      shipTrackerVectPtr->push_back(new ShipTracker(coordTrackerVectPtr));
     }
   }
   //set the column and row on the defensive map
@@ -236,4 +236,31 @@ int Players::prevSunkLength() {
 
 void Players::trackShot(Coord c) {
   this->fleetTrackerPtr->attemptHit(c);
+}
+
+Coord Players::getLastHitCoord() {
+  return this->fleetTrackerPtr->getLastCoordHit();
+}
+
+Coord Players::takeTurn() {
+  int coltmp = charConvert(getColumn());
+  int rowtmp = getRow();
+  return Coord {rowtmp, coltmp};
+}
+
+Coord Players::takeSpecialShot() {
+  int coltmp = charConvert(getColumnInput("Enter the column for the center of your special shot (A-H): ", 0, 7));
+  int rowtmp = getRowInput("Enter the row for the center of your special shot (0-7): ", 0, 7);
+  return Coord {rowtmp, coltmp};
+}
+
+void Players::guessFeedbackSignal() {}
+
+bool Players::hasGuessedCoord(Coord c) {
+  int spot = this->myBoard->getLocation(c.col, c.row);
+  return(spot == 'H' || spot == 'M');
+}
+
+char Players::getLocationChar(int row, int col) {
+  return this->myBoard->getLocation(col, row);
 }

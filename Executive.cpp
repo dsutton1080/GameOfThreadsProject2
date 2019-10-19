@@ -304,18 +304,16 @@ void Executive::sunkFeedbackMsg(int shipSize) {
 bool Executive::playerTurnProcedure(Players* current, Players* other) {
   current->getBoards();
   std::cout << "\n" << current->getID() << " it's your turn!\n";
-  char column = current->getColumn();
-  int row = current->getRow();
+  Coord guess = current->takeTurn();
+  char column = charConvertInverse(guess.col);
+  int row = guess.row;
   bool hitStatus = false;
   other->trackShot(Coord {row, column});
+  current->guessFeedbackSignal();
   if(other->getHit(column, row) == true){
       hitStatus = true;
       other->markMyHits(column, row);
       current->markTheirHits(column, row);
-
-      /* if(other->hasShipSunk() == true){
-
-      }*/
 
       if(other->hasLost() == true){
         current->markMyHits(column, row);
@@ -386,8 +384,10 @@ void Executive::printSpecialShotOption(int option) {
 bool Executive::specialShotProcedure(Players* current, Players* other) {
   current->getBoards();
   int shotEncoding = promptSpecialShotSelection(current);
-  int column = charConvert(getColumnInput("Enter the column for the center of your special shot (A-H): ", 0, 7));
-  int row = getRowInput("Enter the row for the center of your special shot (0-7): ", 0, 7);
+
+  Coord guess = current->takeSpecialShot();
+  int row = guess.row;
+  int column = guess.col;
 
   Coord center = Coord { row, column };
   Coord* shotCoords = specialShotToCoords(shotEncoding, center);
@@ -396,6 +396,7 @@ bool Executive::specialShotProcedure(Players* current, Players* other) {
   for(int i=0; i < 9; i++) {
     if(isCoordInBounds(shotCoords[i], 0, 7, 0, 7)) {
       other->trackShot(Coord {row, column});
+      current->guessFeedbackSignal();
       if(other->getHit(charConvertInverse(shotCoords[i].col), shotCoords[i].row))
       {
         other->markMyHits(column, row);
@@ -408,8 +409,7 @@ bool Executive::specialShotProcedure(Players* current, Players* other) {
         other->markMyMisses(column, row);
         current->markTheirMisses(column, row);
         guessFeedbackMsg(false, shotCoords[i].row, charConvertInverse(shotCoords[i].col));
-    }
-    
+      }
     }
   }
   if(other->hasLost() == true){
