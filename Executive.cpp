@@ -189,8 +189,6 @@ void Executive::runGame(int aiDifficulty, int gamemode) {
   }
 
   int numShips = getNumberOfShips();
-  p1->initializeFleet(numShips);
-  p2->initializeFleet(numShips);
 
   p1->setIDinteractive();
   p2->setIDinteractive(); // If AI, this does nothing
@@ -309,6 +307,7 @@ bool Executive::playerTurnProcedure(Players* current, Players* other) {
   char column = current->getColumn();
   int row = current->getRow();
   bool hitStatus = false;
+  other->trackShot(Coord {row, column});
   if(other->getHit(column, row) == true){
       hitStatus = true;
       other->markMyHits(column, row);
@@ -392,19 +391,21 @@ bool Executive::specialShotProcedure(Players* current, Players* other) {
   bool hitCoord;
   for(int i=0; i < 9; i++) {
     if(isCoordInBounds(shotCoords[i], 0, 7, 0, 7)) {
+      other->trackShot(Coord {row, column});
       if(other->getHit(charConvertInverse(shotCoords[i].col), shotCoords[i].row))
       {
         other->markMyHits(column, row);
         current->markTheirHits(column, row);
+        guessFeedbackMsg(true, shotCoords[i].row, charConvertInverse(shotCoords[i].col));
+        int sunkLength = other->wasSunkPrev();
+        if(sunkLength > 0) sunkFeedbackMsg(sunkLength);
       }
-      guessFeedbackMsg(true, shotCoords[i].row, charConvertInverse(shotCoords[i].col));
-      int sunkLength = other->wasSunkPrev();
-      if(sunkLength > 0) sunkFeedbackMsg(sunkLength);
+      else {
+        other->markMyMisses(column, row);
+        current->markTheirMisses(column, row);
+        guessFeedbackMsg(false, shotCoords[i].row, charConvertInverse(shotCoords[i].col));
     }
-    else {
-      other->markMyMisses(column, row);
-      current->markTheirMisses(column, row);
-      guessFeedbackMsg(false, shotCoords[i].row, charConvertInverse(shotCoords[i].col));
+    
     }
   }
   if(other->hasLost() == true){

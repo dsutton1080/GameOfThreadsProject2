@@ -11,7 +11,7 @@ protected:
 	///String that save player's desire name
 	std::string ID;
 	// 
-	FleetTracker* fleetTracker;
+	FleetTracker* fleetTrackerPtr;
 	///row number for hitting ships
 	int row;
 	///col char for hitting ships
@@ -119,9 +119,11 @@ public:
 	bool wasHitPrev();
 
 	// returns an int 1-5 (or 0) indicating the size of the last sunk ship
-	int wasSunkPrev();
+	int prevSunkLength();
 
-	// points the fleetTracker pointer to a new fleet instance
-	void initializeFleet(int size);
+	bool wasSunkPrev();
+
+	// updates the fleet tracker by giving it a guess Coord
+	void trackShot(Coord c);
 };
 #endif
