@@ -4,10 +4,12 @@
 Players::Players(){
   ID = " ";
 	myBoard = new Boards();
+  this->fleetTrackerPtr = nullptr;
 	allSet = false;
 }
 Players::~Players(){
 	delete myBoard;
+  if(fleetTrackerPtr != nullptr) delete fleetTrackerPtr;
 	ID = " ";
 }
 void Players::setID(std::string name){
@@ -25,7 +27,10 @@ void Players::setShips(int number){
   std::cout << "Placing a ship diagonally is not allowed.\n";
   int tempRow;
   char tempColumn = ' ';
+  std::vector<CoordHitTracker>* coordTrackerVectPtr = nullptr;
+  std::vector<ShipTracker*>* shipTrackerVectPtr = nullptr;
   for(int i = 0; i < number; i++){
+    coordTrackerVectPtr = new std::vector<CoordHitTracker>;
     if(i == 0){
       std::cout << "\n\nThis ship is a 1 X " << i+1 << " ship.\n";
       myBoard->displayDefensiveBoard();
@@ -117,15 +122,20 @@ void Players::setShips(int number){
             else{
                 myBoard->markShips(charConvert(column), row);
                 std::cout << "Ship section set!\n";
+                CoordHitTracker tmp = CoordHitTracker(Coord {row, column});
+                coordTrackerVectPtr->push_back(tmp);
             }
         }
         tempRow = row;
         tempColumn = (toupper(column));
       }
+      ShipTracker* tmp2 = new ShipTracker(coordTrackerVectPtr);
+      shipTrackerVectPtr->push_back(tmp2);
     }
   }
   //set the column and row on the defensive map
   allSet = true;
+  this->fleetTrackerPtr = new FleetTracker(shipTrackerVectPtr);
 }
 void Players::getBoards() const {
 	myBoard->displayBoth();
@@ -212,7 +222,18 @@ bool Players::isAI() {
   return false;
 }
 
-// bool Players::hasShipSunk() {
+bool Players::wasHitPrev() {
+  return fleetTrackerPtr->hitOnLastGuess();
+}
 
+bool Players::wasSunkPrev() {
+  return(prevSunkLength() > 0);
+}
 
-// }
+int Players::prevSunkLength() {
+  return fleetTrackerPtr->sunkOnLastGuess();
+}
+
+void Players::trackShot(Coord c) {
+  this->fleetTrackerPtr->attemptHit(c);
+}

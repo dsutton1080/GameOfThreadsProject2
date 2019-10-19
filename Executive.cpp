@@ -2,7 +2,6 @@
 #include <fstream>
 #include <string>
 #include "Executive.h"
-#include "Utils.cpp"
 
 //Constructor of the Executive class
 Executive::Executive(){
@@ -226,20 +225,27 @@ void Executive::runSpecialShot(Players* p1, Players* p2) {
     if(hasShots[i]){
       if(promptSpecialShot(playersArr[i])){
         hasShots[i] = false;
-        specialShotProcedure(playersArr[i],playersArr[(i+1) % 2]);
+        if(specialShotProcedure(playersArr[i],playersArr[(i+1) % 2])) break;
       } else {
-        playerTurnProcedure(playersArr[i],playersArr[(i+1) % 2]);
+        if(playerTurnProcedure(playersArr[i],playersArr[(i+1) % 2])) break;
       }
     } else {
-      playerTurnProcedure(playersArr[i],playersArr[(i+1) % 2]);
+      if(playerTurnProcedure(playersArr[i],playersArr[(i+1) % 2])) break;
     }
     i = (i + 1) % 2;
   }
 }
 
 void Executive::runMakeItTakeIt(Players* p1, Players* p2) {
+  Players* players[2] = {p1, p2};
+  int i = 0;
+  bool stay = false;
+
   while(true){
-        //
+        stay = false;
+        if(playerTurnProcedure(players[i], players[(i+1) % 2])) break;
+        else if(players[(i+1)%2]->wasHitPrev()) stay = true;
+        if(!stay) i = (i + 1) % 2;
     }
 }
 
@@ -291,12 +297,17 @@ void Executive::guessFeedbackMsg(bool status, int row, char col){
   }
 }
 
+void Executive::sunkFeedbackMsg(int shipSize) {
+  std::cout << "You SUNK the other player's " << toShipName(shipSize) << "!\n";
+}
+
 bool Executive::playerTurnProcedure(Players* current, Players* other) {
   current->getBoards();
   std::cout << "\n" << current->getID() << " it's your turn!\n";
   char column = current->getColumn();
   int row = current->getRow();
   bool hitStatus = false;
+  other->trackShot(Coord {row, column});
   if(other->getHit(column, row) == true){
       hitStatus = true;
       other->markMyHits(column, row);
@@ -309,6 +320,7 @@ bool Executive::playerTurnProcedure(Players* current, Players* other) {
       if(other->hasLost() == true){
         current->markMyHits(column, row);
         std::cout << current->getID() << " has won the game!!!\n";
+        if(current->isAI()) std::cout << other->getID() << ", you'll get'em next time!\n";
         current->getOffensiveBoard();
         current->getDefensiveBoard();
         return(true);
@@ -320,6 +332,8 @@ bool Executive::playerTurnProcedure(Players* current, Players* other) {
   }
   clearScreen();
   guessFeedbackMsg(hitStatus, row, column);
+  int sunkLength = other->wasSunkPrev();
+  if(sunkLength > 0) sunkFeedbackMsg(sunkLength);
   pressToContinue();
   return(false);
 }
@@ -358,7 +372,7 @@ int Executive::promptSpecialShotSelection(Players* p) {
 }
 
 void Executive::printSpecialShotOption(int option) {
-  Coord* coords = specialShotToCoords(option, {2,2});
+  Coord* coords = specialShotToCoords(option, Coord {2,2});
   for(int i = 0; i < 5; i++) {
     for(int j = 0; j < 5; j++) {
       if(isInCoords(coords, i, j)) std::cout << "+";
@@ -369,15 +383,42 @@ void Executive::printSpecialShotOption(int option) {
   delete[] coords;
 }
 
-// bool Executive::specialShotProcedure(Players* current, Players* other) {
-//   current->getBoards();
-//   int shotEncoding = promptSpecialShotSelection(current);
+bool Executive::specialShotProcedure(Players* current, Players* other) {
+  current->getBoards();
+  int shotEncoding = promptSpecialShotSelection(current);
+  int column = charConvert(getColumnInput("Enter the column for the center of your special shot (A-H): ", 0, 7));
+  int row = getRowInput("Enter the row for the center of your special shot (0-7): ", 0, 7);
 
+  Coord center = Coord { row, column };
+  Coord* shotCoords = specialShotToCoords(shotEncoding, center);
 
-//   do {
-
-//   }while(!validCenterCoord);
-//   int column = charConvert(current->getColumn());
-//   int row = current->getRow();
-  
-// }
+  bool hitCoord;
+  for(int i=0; i < 9; i++) {
+    if(isCoordInBounds(shotCoords[i], 0, 7, 0, 7)) {
+      other->trackShot(Coord {row, column});
+      if(other->getHit(charConvertInverse(shotCoords[i].col), shotCoords[i].row))
+      {
+        other->markMyHits(column, row);
+        current->markTheirHits(column, row);
+        guessFeedbackMsg(true, shotCoords[i].row, charConvertInverse(shotCoords[i].col));
+        int sunkLength = other->wasSunkPrev();
+        if(sunkLength > 0) sunkFeedbackMsg(sunkLength);
+      }
+      else {
+        other->markMyMisses(column, row);
+        current->markTheirMisses(column, row);
+        guessFeedbackMsg(false, shotCoords[i].row, charConvertInverse(shotCoords[i].col));
+    }
+    
+    }
+  }
+  if(other->hasLost() == true){
+    current->markMyHits(column, row);
+    std::cout << current->getID() << " has won the game!!!\n";
+    if(current->isAI()) std::cout << other->getID() << ", you'll get'em next time!\n";
+    current->getOffensiveBoard();
+    current->getDefensiveBoard();
+    return(true);
+  }
+  return false;
+}
