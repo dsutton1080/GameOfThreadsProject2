@@ -178,7 +178,7 @@ int gameEncoding;
  }
 }
 
-void Executive::runGame(int aiDifficulty, int gamemode) {
+void Executive::runGame(int gamemode, int aiDifficulty) {
   Players* p1;
   Players* p2;
   p1 = new Players();
@@ -291,9 +291,9 @@ void Executive::pressToContinue(){
 
 void Executive::guessFeedbackMsg(bool status, int row, char col){
   if(status) {
-    std::cout << "You HIT (" << row << ", " << col << ")!\n";
+    std::cout << "HIT (" << col << ", " << row << ")!\n";
   }else{
-    std::cout << "You MISSED (" << row << ", " << col << ")!\n";
+    std::cout << "MISSED (" << col << ", " << row << ")!\n";
   }
 }
 
@@ -302,13 +302,18 @@ void Executive::sunkFeedbackMsg(int shipSize) {
 }
 
 bool Executive::playerTurnProcedure(Players* current, Players* other) {
-  current->getBoards();
-  std::cout << "\n" << current->getID() << " it's your turn!\n";
+  if (other->isAI()) {
+      current->getBoards();
+      std::cout << "\n" << current->getID() << " it's your turn to fire!\n";
+  }
+  else {
+      std::cout << "\nAI Turn.\n";
+  }
   Coord guess = current->takeTurn();
-  int column = guess.col;
+  char column = charConvertInverse(guess.col);
   int row = guess.row;
   bool hitStatus = false;
-  other->trackShot(Coord {row, column});
+  other->trackShot(Coord {row, charConvert(column)});
   current->guessFeedbackSignal();
   if(other->getHit(column, row) == true){
       hitStatus = true;
@@ -328,9 +333,9 @@ bool Executive::playerTurnProcedure(Players* current, Players* other) {
       other->markMyMisses(column, row);
       current->markTheirMisses(column, row);
   }
-  clearScreen();
-  guessFeedbackMsg(hitStatus, row, column);
-  int sunkLength = other->wasSunkPrev();
+  //clearScreen();
+  guessFeedbackMsg(hitStatus, row, charConvertInverse(column));
+  int sunkLength = other->prevSunkLength();
   if(sunkLength > 0) sunkFeedbackMsg(sunkLength);
   pressToContinue();
   return(false);

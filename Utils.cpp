@@ -3,8 +3,12 @@
 
 
 bool Coord::operator==(Coord c) const {
-  if(c.row == row && c.col == col) return true;
-  else return false;
+    if (c.row == row && c.col == col) {
+        return true;
+    }
+    else {
+        return false;
+    }
 }
 
 // Returns whether a coordinate object falls within the specified bounds (inclusive)
@@ -139,17 +143,32 @@ int charConvert(char temp){
 }
 
 char charConvertInverse(int n) {
-  switch(n) {
-    case 0: return 'A';
-    case 1: return 'B';
-    case 2: return 'C';
-    case 3: return 'D';
-    case 4: return 'E';
-    case 5: return 'F';
-    case 6: return 'G';
-    case 7: return 'H';
-  }
-  return 'Z';
+    switch (n) {
+    case 0:
+        return 'A';
+        break;
+    case 1:
+        return 'B';
+        break;
+    case 2:
+        return 'C';
+        break;
+    case 3:
+        return 'D';
+        break;
+    case 4:
+        return 'E';
+        break;
+    case 5:
+        return 'F';
+        break;
+    case 6:
+        return 'G';
+        break;
+    case 7:
+        return 'H';
+        break;
+    }
 }
 
 std::string toShipName(int i) {

@@ -123,6 +123,8 @@ public:
 
 	bool wasSunkPrev();
 
+    bool wasSunkPrevHit();
+
 	// updates the fleet tracker by giving it a guess Coord
 	void trackShot(Coord c);
 

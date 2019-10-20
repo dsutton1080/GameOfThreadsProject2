@@ -13,6 +13,7 @@ AI::AI(int difficulty, Players* otherPlayerPtr) {
 	this->lastHitSunkShip = true; //Initiallzed to true to on medium
 								  //the AI will start by guessing randomly
 	this->lastGuessWasHit = false;
+    this->horizChecked = false;
 	//-------------------------------------------------
 }	
 
@@ -47,8 +48,8 @@ void AI::setShips(int numShips) {
 				}
 				else {
                     coordPlaced = false;
-					row = rand() % 8;
-					col = rand() % 8;
+					row = (rand() % 8);
+					col = (rand() % 8);
 				}
 			}
 			else {
@@ -116,49 +117,52 @@ Coord AI::easyGuess() {
 
 
 Coord AI::mediumGuess() {
-	int row, col;
+	int guessRow, guessCol;
 	bool validGuess = false;
-	Coord guess;
 	// If the last hit sunk a ship, guess randomly
 	if (lastHitSunkShip) {
-		row = rand() % 8;
-		col = rand() % 8;
-		offset = offsetSign = 1;
+		guessRow = rand() % 8;
+		guessCol = rand() % 8;
+        offset = 1;
+        offsetSign = 1;
+        horizChecked = false;
+        return Coord{ guessRow, guessCol };
 	}
 	// If the last hit did not sink a ship, guess nearby 
 	// until a ship sinks
 	else {
-		row = firstHitOnShip.row; //Row of the first guess that hit current ship
-		col = firstHitOnShip.col; //Col of the last guess that hit current ship
+		guessRow = firstHitOnShip.row; //Row of the first guess that hit current ship
+		guessCol = firstHitOnShip.col; //Col of the last guess that hit current ship
 
 		//Loop until next generated row and col are within bounds (0 - 7)
 		while (!validGuess) {
-			// If guessed right of first hit and missed, guess left next time
-			if (!horizChecked && (offsetSign == 1) && !lastGuessWasHit) {
-				offsetSign = -1;
-				offset = 1;
-			}
-			// If guessed left of first hit and missed, guess down next time
-			else if (!horizChecked && (offsetSign == -1) && !lastGuessWasHit) {
-				offsetSign = 1;
-				offset = 1;
-				horizChecked = true;
-			}
-			// If guessed below first hit and missed, guess above next time
-			else if (horizChecked && (offsetSign == 1) && !lastGuessWasHit) {
-				offsetSign = -1;
-				offset = 1;
-			}
-			//Note: No else branch because it is impossible to exhaust every direction
-			//without sinking a ship
-
+            if (!lastGuessWasHit) {
+                // If guessed right of first hit and missed, guess left next time
+                if (!horizChecked && (offsetSign == 1)) {
+                    offsetSign = -1;
+                    offset = -1;
+                }
+                // If guessed left of first hit and missed, guess down next time
+                else if (!horizChecked && (offsetSign == -1)) {
+                    offsetSign = 1;
+                    offset = 1;
+                    horizChecked = true;
+                }
+                // If guessed below first hit and missed, guess above next time
+                else if (horizChecked && (offsetSign == 1)) {
+                    offsetSign = -1;
+                    offset = -1;
+                }
+                //Note: No else branch because it is impossible to exhaust every direction
+                //without sinking a ship
+            }
 			// If the AI has not tried guessing horizontal in both directions,
 			// continue guessing horizontally
 			if (!horizChecked) {
 				//Check that row and col for next guess would be in bounds
-				if (myBoard->isValid(col + offset, row)) {
+				if (guessCol + offset <= 7 && guessCol + offset >= 0) {
 					validGuess = true;
-					col += offset;
+					guessCol += offset;
 					offset += offsetSign;
 				}
 				//If next guess would be outside of bounds, guess left instead of right
@@ -171,9 +175,9 @@ Coord AI::mediumGuess() {
 			// try guessing vertically
 			else {
 				//Check that row and col for next guess would be in bounds
-				if (myBoard->isValid(col, row + offset)) {
+				if (guessRow + offset <=7 && guessRow + offset >= 0) {
 					validGuess = true;
-					row += offset;
+					guessRow += offset;
 					offset += offsetSign;
 				}
 				//If next guess would be out of bounds, guess up instead of down
@@ -183,8 +187,7 @@ Coord AI::mediumGuess() {
 				}
 			} 
 		}
-		guess = { row, col };
-		return guess;
+        return Coord{ guessRow, guessCol };
 	}
 }
 
@@ -203,7 +206,7 @@ Coord AI::takeTurn() {
 	case 1:
 		guess = this->easyGuess();
 		break;
-	case 2:
+	case 2:  
 		guess = this->mediumGuess();
 		break;
 	case 3:
@@ -238,5 +241,5 @@ Coord AI::takeSpecialShot() {return takeTurn();}
 void AI::guessFeedbackSignal() {
 	if(!lastGuessWasHit && otherPlayer->wasHitPrev()) this->firstHitOnShip = otherPlayer->getLastHitCoord();
 	this->lastGuessWasHit = otherPlayer->wasHitPrev();
-	this->lastHitSunkShip = otherPlayer->wasSunkPrev();
+	this->lastHitSunkShip = (otherPlayer->wasSunkPrevHit());
 }

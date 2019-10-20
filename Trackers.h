@@ -36,12 +36,14 @@ class FleetTracker {
         int sunkNum;
         int lastGuessSunkLength;
         bool lastGuessHit;
+        bool lastHitSunk;
         Coord lastCoordHit;
     public:
         FleetTracker(std::vector<ShipTracker*>* trackerPtr);
         ~FleetTracker();
         bool attemptHit(Coord c);
         bool sunkOnLastGuess();
+        bool sunkOnLastHit();
         int sunkLengthOnLastGuess();
         bool isFleetSunk();
         bool hitOnLastGuess();

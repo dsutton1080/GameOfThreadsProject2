@@ -3,7 +3,7 @@
 Players::Players(){
   ID = " ";
 	myBoard = new Boards();
-  this->fleetTrackerPtr = nullptr;
+    this->fleetTrackerPtr = nullptr;
 	allSet = false;
 }
 Players::~Players(){
@@ -18,16 +18,19 @@ std::string Players::getID(){
     return this->ID;
 }
 void Players::setShips(int number){
-  int row = 0;
-  char column = ' ';
+  int row;
+  char column;
   char orientation = ' ';
+  int tempRow;
+  char tempColumn;
+
   std::cout << "\n" << this->ID << " it's your turn to start setting your ships!\n\n";
   std::cout << "The ships can only be placed vertically or horizontally\n";
   std::cout << "Placing a ship diagonally is not allowed.\n";
-  int tempRow;
-  char tempColumn = ' ';
+
   std::vector<ShipTracker*>* shipTrackersPtr = new std::vector<ShipTracker*>;
   ShipTracker* ship = nullptr;
+
   for(int i = 0; i < number; i++){
 	std::vector<CoordHitTracker*> coordTrackerPtrVec;
 	CoordHitTracker* coordTracker = nullptr;
@@ -43,6 +46,7 @@ void Players::setShips(int number){
 	  shipTrackersPtr->push_back(ship);
     }
     else{
+      myBoard->displayDefensiveBoard();
       std::cout << "\nThis ship is a 1 X " << i+1 << " ship.\n";
       std::cout << "Enter 'V' to place the ship vertically, and 'H' to place the ship horizontally: ";
       std::cin >> orientation;
@@ -55,7 +59,6 @@ void Players::setShips(int number){
           std::cout << orientation << "\n";
       }
       for(int j = 0; j < i+1; j++){
-          
           if(j == 0){
             std::cout << "This is the first section to be placed.\n";
           }
@@ -71,63 +74,52 @@ void Players::setShips(int number){
           else if(j == 4){
             std::cout << "This is the fifth section to be placed.\n";
           }
-          row = 0;
-          column = ' ';
           myBoard->displayDefensiveBoard();
           std::cout << "\n" << this->ID << " it's your turn!\n\n";
-          column = getColumn();
-          row = getRow();
           if(orientation == 'V'){
-              if(myBoard->getLocation(charConvert(column), row) != '~'){
-                while(myBoard->getLocation(charConvert(column), row) != '~'){
-                  std::cout << "That section of the board is already occupied!\n";
+              do {
                   column = getColumn();
+                  if (j > 0) {
+                      while (column != tempColumn) {
+                          std::cout << "Column must be the same as the previous placement.\n";
+                          column = getColumn();
+                      }
+                  }
                   row = getRow();
-                }
-              }
-              if((tempRow != row+1 || tempRow != row-1) && (i > 1)){
-                while(tempRow != row+1 || tempRow != row-1){
-                  std::cout << "The new placement must be adjacent to the previous placement in a vertical line.\n";
-                  row = getRow();
-                }
-              }
-              else if((tempColumn != column) && (j > 0)){
-                while(tempColumn != column){
-                  std::cout << "The placement must be in the same column as the previous placement.\n";
-                  column = getColumn();
-                }
-              }
-              else{
-                  std::cout << "Ship section set!\n";
-              }
+                  if (j > 0) {
+                      while ((row != tempRow + 1) && (row != tempRow - 1)) {
+                          std::cout << "Row must be adjacent to the previous placement.\n";
+                          row = getRow();
+                      }
+                  }
+                  if (this->getLocationChar(row, charConvert(column)) != '~') {
+                      std::cout << "That space is already occupied!\n";
+                  }
+              } while (this->getLocationChar(row, charConvert(column)) != '~');
           }
-          else if(orientation == 'H'){
-            std::cout << int(tempColumn) << " " << int(column) << "\n";
-            if(myBoard->getLocation(charConvert(column), row) != '~'){
-              while(myBoard->getLocation(charConvert(column), row) != '~'){
-                std::cout << "That section of the board is already occupied!\n";
-                column = getColumn();
-                row = getRow();
-              }
-            }
-            else if((int(tempColumn) != int(tempColumn+1) || int(tempColumn) != int(column-1)) && (j > 1)){
-              while(int(tempColumn) != int(tempColumn+1) || int(tempColumn) != int(column-1)){
-                std::cout << int(tempColumn) << " " << int(column-1) << " " << int(column+1) <<"\n";
-                std::cout << "The new placement must be adjacent to the previous placement in a horizontal line.\n";
-                column = getColumn();
-              }
-            }
-            else if((tempRow != row) && (j > 0)){
-              while(tempRow != row){
-                std::cout << "The placement must be in the same row as the previous placement.\n";
-                row = getRow();
-              }
-            }
-            else{
-                std::cout << "Ship section set!\n";
-            }
-
-        }
+          else if(orientation == 'H'){      
+              do {
+                  column = getColumn();
+                  if (j > 0) {
+                      std::cout << charConvert(column) << " " << charConvert(tempColumn) << '\n';
+                      while ((charConvert(column) != charConvert(tempColumn)+1) && 
+                                    (charConvert(column) != charConvert(tempColumn)-1) )  {
+                          std::cout << "Column must be adjacent to the previous placement.\n";
+                          column = getColumn();
+                      }
+                  }
+                  row = getRow();
+                  if (j > 0) {
+                      while (row != tempRow) {
+                          std::cout << "Row must be the same as the previous placement.\n";
+                          row = getRow();
+                      }
+                  }
+                  if (this->getLocationChar(row, charConvert(column)) != '~') {
+                      std::cout << "That space is already occupied!\n";
+                  }
+              } while (this->getLocationChar(row, charConvert(column)) != '~');
+          }
         myBoard->markShips(charConvert(column), row);
 		coordTracker = new CoordHitTracker(Coord{ row, charConvert(column) });
 		coordTrackerPtrVec.push_back(coordTracker);
@@ -153,7 +145,7 @@ void Players::getDefensiveBoard() const {
 }
 char Players::getColumn(){
     char column = ' ';
-    std::cout << "Enter the column letter to set the ship: ";
+    std::cout << "Enter the column letter: ";
     std::cin >> column;
     column = (toupper(column));
     while(column < 65 || column > 72){
@@ -168,7 +160,7 @@ char Players::getColumn(){
 }
 int Players::getRow(){
     int row = 0;
-    std::cout << "Enter the row number to set the ship: ";
+    std::cout << "Enter the row number: ";
     std::cin >> row;
     while (std::cin.fail() || row > 7 || row < 0){
         std::cin.clear();
@@ -203,7 +195,8 @@ bool Players::hasLost(){
     }
 }
 bool Players::getHit(char column, int row){
-    if(myBoard->getLocation(charConvert(column), row) == 'S'){
+    if(myBoard->getLocation(charConvert(column), row) == 'S' || 
+                myBoard->getLocation(charConvert(column), row) == 'H') {
         return true;
     }
     else{
@@ -237,8 +230,12 @@ bool Players::wasSunkPrev() {
   return(prevSunkLength() > 0);
 }
 
+bool Players::wasSunkPrevHit() {
+    return fleetTrackerPtr->sunkOnLastHit();
+}
+
 int Players::prevSunkLength() {
-  return fleetTrackerPtr->sunkOnLastGuess();
+  return fleetTrackerPtr->sunkLengthOnLastGuess();
 }
 
 void Players::trackShot(Coord c) {

@@ -39,6 +39,7 @@ ShipTracker::ShipTracker(const ShipTracker& otherShip) {
 		this->coordTrackers.push_back(otherShip.coordTrackers.at(i));
 		this->length = otherShip.length;
 		this->hitNum = otherShip.hitNum;
+
 	}
 }
 
@@ -72,6 +73,7 @@ FleetTracker::FleetTracker(std::vector<ShipTracker*>* trackerPtr) {
 	this->sunkNum = 0;
 	this->lastGuessSunkLength = 0;
 	this->lastGuessHit = false;
+    this->lastHitSunk = true;
 }
 
 FleetTracker::~FleetTracker() {
@@ -89,8 +91,12 @@ bool FleetTracker::attemptHit(Coord c) {
             this->lastCoordHit = c;
             if(this->shipTrackersPtr->at(i)->isSunk()) {
                 this->lastGuessSunkLength = this->shipTrackersPtr->at(i)->getLength();
+                this->lastHitSunk = true;
                 this->sunkNum++;
             }   
+            else {
+                this->lastHitSunk = false;
+            }
             return true;
         } else {
             this->lastGuessHit = false;
@@ -102,6 +108,10 @@ bool FleetTracker::attemptHit(Coord c) {
 
 bool FleetTracker::sunkOnLastGuess() {
     return(this->lastGuessSunkLength > 0);
+}
+
+bool FleetTracker::sunkOnLastHit() {
+    return this->lastHitSunk;
 }
 
 int FleetTracker::sunkLengthOnLastGuess() {
