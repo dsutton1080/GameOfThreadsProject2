@@ -7,7 +7,7 @@
 class Players{
 protected:
 	///Creating an object to access to board class
-	Boards* myBoard;
+	Boards myBoard;
 	///String that save player's desire name
 	std::string ID;
 	// 

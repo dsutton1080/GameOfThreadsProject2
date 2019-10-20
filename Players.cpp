@@ -2,12 +2,10 @@
 
 Players::Players(){
   ID = " ";
-	myBoard = new Boards();
-    this->fleetTrackerPtr = nullptr;
+  this->fleetTrackerPtr = nullptr;
 	allSet = false;
 }
 Players::~Players(){
-	delete myBoard;
   if(fleetTrackerPtr != nullptr) delete fleetTrackerPtr;
 	ID = " ";
 }
@@ -36,17 +34,17 @@ void Players::setShips(int number){
 	CoordHitTracker* coordTracker = nullptr;
     if(i == 0){
       std::cout << "\n\nThis ship is a 1 X " << i+1 << " ship.\n";
-      myBoard->displayDefensiveBoard();
+      myBoard.displayDefensiveBoard();
       column = getColumn();
       row = getRow();
-      myBoard->markShips(charConvert(column), row);
+      myBoard.markShips(charConvert(column), row);
 	  coordTracker = new CoordHitTracker(Coord{ row, charConvert(column) });
 	  coordTrackerPtrVec.push_back(coordTracker);
 	  ship = new ShipTracker(coordTrackerPtrVec);
 	  shipTrackersPtr->push_back(ship);
     }
     else{
-      myBoard->displayDefensiveBoard();
+      myBoard.displayDefensiveBoard();
       std::cout << "\nThis ship is a 1 X " << i+1 << " ship.\n";
       std::cout << "Enter 'V' to place the ship vertically, and 'H' to place the ship horizontally: ";
       std::cin >> orientation;
@@ -74,7 +72,7 @@ void Players::setShips(int number){
           else if(j == 4){
             std::cout << "This is the fifth section to be placed.\n";
           }
-          myBoard->displayDefensiveBoard();
+          myBoard.displayDefensiveBoard();
           std::cout << "\n" << this->ID << " it's your turn!\n\n";
           if(orientation == 'V'){
               do {
@@ -120,7 +118,7 @@ void Players::setShips(int number){
                   }
               } while (this->getLocationChar(row, charConvert(column)) != '~');
           }
-        myBoard->markShips(charConvert(column), row);
+        myBoard.markShips(charConvert(column), row);
 		coordTracker = new CoordHitTracker(Coord{ row, charConvert(column) });
 		coordTrackerPtrVec.push_back(coordTracker);
         tempRow = row;
@@ -135,13 +133,13 @@ void Players::setShips(int number){
   this->fleetTrackerPtr = new FleetTracker(shipTrackersPtr);
 }
 void Players::getBoards() const {
-	myBoard->displayBoth();
+	myBoard.displayBoth();
 }
 void Players::getOffensiveBoard() const {
-	myBoard->displayOffensiveBoard();
+	myBoard.displayOffensiveBoard();
 }
 void Players::getDefensiveBoard() const {
-	myBoard->displayDefensiveBoard();
+	myBoard.displayDefensiveBoard();
 }
 char Players::getColumn(){
     char column = ' ';
@@ -172,22 +170,22 @@ int Players::getRow(){
     return row;
 }
 void Players::markMyHits(char column, int row){
-    myBoard->ownBoardHit(charConvert(column), row);
+    myBoard.ownBoardHit(charConvert(column), row);
 }
 void Players::markMyMisses(char column, int row){
-    myBoard->ownBoardMiss(charConvert(column), row);
+    myBoard.ownBoardMiss(charConvert(column), row);
 }
 void Players::markTheirHits(char column, int row){
-    myBoard->otherBoardHit(charConvert(column), row);
+    myBoard.otherBoardHit(charConvert(column), row);
 }
 void Players::markTheirMisses(char column, int row){
-    myBoard->otherBoardMiss(charConvert(column), row);
+    myBoard.otherBoardMiss(charConvert(column), row);
 }
 bool Players::shipsSet(){
     return this->allSet;
 }
 bool Players::hasLost(){
-    if(myBoard->gameWon() == true){
+    if(myBoard.gameWon() == true){
         return true;
     }
     else{
@@ -195,8 +193,8 @@ bool Players::hasLost(){
     }
 }
 bool Players::getHit(char column, int row){
-    if(myBoard->getLocation(charConvert(column), row) == 'S' || 
-                myBoard->getLocation(charConvert(column), row) == 'H') {
+    if(myBoard.getLocation(charConvert(column), row) == 'S' || 
+                myBoard.getLocation(charConvert(column), row) == 'H') {
         return true;
     }
     else{
@@ -205,7 +203,7 @@ bool Players::getHit(char column, int row){
 }
 
 void Players::cleanBoard(){
-  myBoard->clearBoards();
+  myBoard.clearBoards();
 }
 
 void Players::setIDinteractive() {
@@ -261,10 +259,10 @@ Coord Players::takeSpecialShot() {
 void Players::guessFeedbackSignal() {}
 
 bool Players::hasGuessedCoord(Coord c) {
-  int spot = this->myBoard->getLocation(c.col, c.row);
+  int spot = this->myBoard.getLocation(c.col, c.row);
   return(spot == 'H' || spot == 'M');
 }
 
 char Players::getLocationChar(int row, int col) {
-  return this->myBoard->getLocation(col, row);
+  return this->myBoard.getLocation(col, row);
 }
