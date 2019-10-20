@@ -42,8 +42,8 @@ void AI::setShips(int numShips) {
 			markedCols[count] = col;
 			markedRows[count] = row;
 			if (count == 0) {
-				if (myBoard->isValid(col, row)) {
-					myBoard->markShips(col, row);
+				if (myBoard.isValid(col, row)) {
+					myBoard.markShips(col, row);
                     coordPlaced = true;
 				}
 				else {
@@ -53,30 +53,30 @@ void AI::setShips(int numShips) {
 				}
 			}
 			else {
-				if (dir == 'u' && myBoard->isValid(col, row - 1)) {
-					myBoard->markShips(col, row - 1);
+				if (dir == 'u' && myBoard.isValid(col, row - 1)) {
+					myBoard.markShips(col, row - 1);
 					row--;
                     coordPlaced = true;
 				}
-				else if (dir == 'd' && myBoard->isValid(col, row + 1)) {
-					myBoard->markShips(col, row + 1);
+				else if (dir == 'd' && myBoard.isValid(col, row + 1)) {
+					myBoard.markShips(col, row + 1);
 					row++;
                     coordPlaced = true;
 				}
-				else if (dir == 'l' && myBoard->isValid(col - 1, row)) {
-					myBoard->markShips(col - 1, row);
+				else if (dir == 'l' && myBoard.isValid(col - 1, row)) {
+					myBoard.markShips(col - 1, row);
 					col--;
                     coordPlaced = true;
 				}
-				else if (dir == 'r' && myBoard->isValid(col + 1, row)) {
-					myBoard->markShips(col + 1, row);
+				else if (dir == 'r' && myBoard.isValid(col + 1, row)) {
+					myBoard.markShips(col + 1, row);
 					col++;
                     coordPlaced = true;
 				}
 				else {
                     coordPlaced = false;
 					for (int i = 0; i <= count; i++) {
-						myBoard->unmarkShips(markedCols[i], markedRows[i]);
+						myBoard.unmarkShips(markedCols[i], markedRows[i]);
 					}
 					count = 0;
 					row = rand() % 8;

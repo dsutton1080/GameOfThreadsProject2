@@ -179,15 +179,17 @@ int gameEncoding;
 }
 
 void Executive::runGame(int gamemode, int aiDifficulty) {
-  Players* p1;
-  Players* p2;
-  p1 = new Players();
+  Players p1;
+  Players p2;
+  AI p3(aiDifficulty, &p1);
   if(aiDifficulty == 0) {
-    p2 = new Players();
+    runGameHelper(gamemode, &p1, &p2);
   } else {
-    p2 = new AI(aiDifficulty, p1);
+    runGameHelper(gamemode, &p1, &p3);
   }
+}
 
+void Executive::runGameHelper(int gamemode, Players* p1, Players* p2) {
   int numShips = getNumberOfShips();
 
   p1->setIDinteractive();
@@ -204,10 +206,6 @@ void Executive::runGame(int gamemode, int aiDifficulty) {
     // Make-it Take-it Game Mode
     case 3: runMakeItTakeIt(p1, p2); break;
   }
-
-  delete p1;
-  delete p2;
-
 }
 
 void Executive::runNormal(Players* p1, Players* p2) {
@@ -322,6 +320,9 @@ bool Executive::playerTurnProcedure(Players* current, Players* other) {
 
       if(other->hasLost() == true){
         current->markMyHits(column, row);
+        guessFeedbackMsg(hitStatus, row, charConvertInverse(column));
+        int sunkLength = other->prevSunkLength();
+        if(sunkLength > 0) sunkFeedbackMsg(sunkLength);
         std::cout << current->getID() << " has won the game!!!\n";
         if(current->isAI()) std::cout << other->getID() << ", you'll get'em next time!\n";
         current->getOffensiveBoard();

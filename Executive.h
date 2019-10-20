@@ -70,6 +70,8 @@ class Executive{
 
       void printSpecialShotOption(int option);
 
+      void runGameHelper(int gamecode, Players* p1, Players* p2);
+
     public:
         /**
         *@pre none
