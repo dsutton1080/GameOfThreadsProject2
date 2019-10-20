@@ -7,7 +7,7 @@ Players::Players(){
 	allSet = false;
 }
 Players::~Players(){
-	delete myBoard;
+  delete myBoard;
   if(fleetTrackerPtr != nullptr) delete fleetTrackerPtr;
 	ID = " ";
 }

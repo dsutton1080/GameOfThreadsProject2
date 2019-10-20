@@ -17,6 +17,11 @@ AI::AI(int difficulty, Players* otherPlayerPtr) {
 	//-------------------------------------------------
 }	
 
+AI::~AI() {
+    delete myBoard;
+    delete fleetTrackerPtr;
+}
+
 void AI::setShips(int numShips) {
 	int row, col; 
 	char directions[] = { 'u', 'd', 'l', 'r' }; 
@@ -34,6 +39,7 @@ void AI::setShips(int numShips) {
 	for (int size = numShips; size > 0; size--) {
         std::vector<CoordHitTracker*> coordTrackerPtrVec;
         CoordHitTracker* coordTracker = nullptr;
+
 		row = rand() % 8;
 		col = rand() % 8;
 		dir = directions[rand() % 4];
@@ -78,6 +84,10 @@ void AI::setShips(int numShips) {
 					for (int i = 0; i <= count; i++) {
 						myBoard->unmarkShips(markedCols[i], markedRows[i]);
 					}
+                    for (int i = 0; i < shipTrackersPtr->size(); i++) {
+                        delete shipTrackersPtr->at(i);
+                    }
+                    shipTrackersPtr->clear();
 					count = 0;
 					row = rand() % 8;
 					col = rand() % 8;
@@ -87,11 +97,11 @@ void AI::setShips(int numShips) {
             if (coordPlaced) {
                 coordTracker = new CoordHitTracker(Coord{ row, col });
                 coordTrackerPtrVec.push_back(coordTracker);
-                ship = new ShipTracker(coordTrackerPtrVec);
-                shipTrackersPtr->push_back(ship);
                 count++;
             }
 		}
+        ship = new ShipTracker(coordTrackerPtrVec);
+        shipTrackersPtr->push_back(ship);
 		count = 0;
 	}
 	delete[] markedCols;

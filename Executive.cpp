@@ -109,8 +109,8 @@ int Executive::displayMenuGameMode(bool isAIHardMode) {
         }
         else if(choice == 3) {
             if(isAIHardMode) {
-              std::cout << "BEWARE: Playing this Special Game Mode on hard mode will \
-              result in an immediate loss if you are to miss even a single shot. We wish you good luck.";
+              std::cout << "BEWARE: Playing this Special Game Mode on hard mode will "
+              << "result in an immediate loss if you are to miss even a single shot. We wish you good luck.";
             }
             return(3);
         }
@@ -243,14 +243,14 @@ void Executive::runMakeItTakeIt(Players* p1, Players* p2) {
 
   while(true){
         stay = false;
-        if (playerTurnProcedure(players[i], players[(i + 1) % 2])) {
+        if (playerTurnProcedure(players[i], players[1 - i])) {
             break;
         }
-        else if (players[(i + 1) % 2]->wasHitPrev()) {
+        else if (players[1 - i]->wasHitPrev()) {
             stay = true;
             std::cout << "It is still " << players[i]->getID() << "'s turn to guess.\n";
         }
-        if(!stay) i = (i + 1) % 2;
+        if(!stay) i = 1 - i;
     }
 }
 

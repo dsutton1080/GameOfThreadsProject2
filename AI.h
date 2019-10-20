@@ -21,6 +21,7 @@ private:
 
 public:
 	AI(int difficulty, Players* otherPlayerPtr);
+    ~AI();
 	void setShips(int);
 	bool isAI();
 
