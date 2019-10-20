@@ -23,8 +23,6 @@ Boards::~Boards(){
       defensiveBoard[i][j] = ' ';
     }
   }
-  free(offensiveBoard);
-  free(defensiveBoard);
 }
 //Checks the position within the board containing ships
 //If the location in the array contains a ~ the position

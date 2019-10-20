@@ -77,11 +77,9 @@ FleetTracker::FleetTracker(std::vector<ShipTracker*>* trackerPtr) {
 }
 
 FleetTracker::~FleetTracker() {
-	for (int i = 0; i < this->shipTrackersPtr->size(); i++) {
-		for (int j = 0; j < this->shipTrackersPtr->at(i)->getLength(); j++) {
-			delete this->shipTrackersPtr->at(j);
-		}
-	}
+    for (int i = 0; i < this->shipTrackersPtr->size(); i++) {
+        delete this->shipTrackersPtr->at(i);
+    }
 }
 
 bool FleetTracker::attemptHit(Coord c) {
