@@ -15,17 +15,8 @@ Boards::Boards(){
     }
   }
 }
-Boards::~Boards(){
-  //Deletes the allocated memory for the boards.
-  for(int i = 0 ; i < rows ; i++) {
-    for(int j = 0 ; j < rows ; j++) {
-      offensiveBoard[i][j] = ' ';
-      defensiveBoard[i][j] = ' ';
-    }
-  }
-  free(offensiveBoard);
-  free(defensiveBoard);
-}
+Boards::~Boards(){}
+
 //Checks the position within the board containing ships
 //If the location in the array contains a ~ the position
 //is considered valid and true is returned, else false.
