@@ -243,8 +243,13 @@ void Executive::runMakeItTakeIt(Players* p1, Players* p2) {
 
   while(true){
         stay = false;
-        if(playerTurnProcedure(players[i], players[(i+1) % 2])) break;
-        else if(players[(i+1)%2]->wasHitPrev()) stay = true;
+        if (playerTurnProcedure(players[i], players[(i + 1) % 2])) {
+            break;
+        }
+        else if (players[(i + 1) % 2]->wasHitPrev()) {
+            stay = true;
+            std::cout << "It is still " << players[i]->getID() << "'s turn to guess.\n";
+        }
         if(!stay) i = (i + 1) % 2;
     }
 }
@@ -279,7 +284,7 @@ void Executive::clearScreen(){
 //Prompts user to continue when they set their ship ready
 void Executive::pressToContinue(){
   char press;
-  std::cout<<"Change users, then type 'R' to continue.\n";
+  std::cout<<"Type 'R' to continue.\n";
   std::cin>>press;
   press = (toupper(press));
   while(press != 'R'){
@@ -302,7 +307,7 @@ void Executive::sunkFeedbackMsg(int shipSize) {
 }
 
 bool Executive::playerTurnProcedure(Players* current, Players* other) {
-  if (other->isAI()) {
+  if (!(current->isAI())) {
       current->getBoards();
       std::cout << "\n" << current->getID() << " it's your turn to fire!\n";
   }

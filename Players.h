@@ -12,10 +12,6 @@ protected:
 	std::string ID;
 	// 
 	FleetTracker* fleetTrackerPtr;
-	///row number for hitting ships
-	int row;
-	///col char for hitting ships
-	char column;
 	///bool that to determine whether players are ready to play
 	bool allSet;
 public:
