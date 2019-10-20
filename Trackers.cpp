@@ -5,6 +5,11 @@ CoordHitTracker::CoordHitTracker(Coord c) {
     this->hit = false;
 }
 
+CoordHitTracker::CoordHitTracker(const CoordHitTracker& C) {
+	this->coord = Coord{ C.coord.row, C.coord.col };
+	this->hit = C.hit;
+}
+
 bool CoordHitTracker::isHit() {
     return(this->hit);
 }
@@ -21,19 +26,31 @@ Coord CoordHitTracker::getCoord() {
     return coord;
 }
 
-ShipTracker::ShipTracker(std::vector<CoordHitTracker*>* coordHitVectPtr) {
-    this->coordTrackersPtr = coordHitVectPtr;
-    this->length = this->coordTrackersPtr->size();
-    this->hitNum = 0;
+ShipTracker::ShipTracker(std::vector<CoordHitTracker*> coordPtrVec) {
+	for (int i = 0; i < coordPtrVec.size(); i++) {
+		this->coordTrackers.push_back(coordPtrVec.at(i));
+	}
+	length = this->coordTrackers.size();
+	this->hitNum = 0;
+}
+
+ShipTracker::ShipTracker(const ShipTracker& otherShip) {
+	for (int i = 0; i < otherShip.length; i++) {
+		this->coordTrackers.push_back(otherShip.coordTrackers.at(i));
+		this->length = otherShip.length;
+		this->hitNum = otherShip.hitNum;
+	}
 }
 
 ShipTracker::~ShipTracker() {
-    if(this->coordTrackersPtr != nullptr) delete this->coordTrackersPtr;
+	for (int i = 0; i < this->length; i++) {
+		delete this->coordTrackers.at(i);
+	}
 }
 
 bool ShipTracker::attemptHit(Coord c) {
     for(int i = 0; i < this->length; i++) {
-        if(this->coordTrackersPtr->at(i)->attemptHit(c)) {
+        if(this->coordTrackers.at(i)->attemptHit(c)) {
             this->hitNum++;
             return true;
         } 
@@ -49,25 +66,29 @@ int ShipTracker::getLength() {
     return this->length;
 }
 
-FleetTracker::FleetTracker(std::vector<ShipTracker*>* trackerPtrsVect) {
-    this->shipTrackersPtrsPtr = trackerPtrsVect;
-    this->size = this->shipTrackersPtrsPtr->size();
-    this->sunkNum = 0;
-    this->lastGuessHit = false;
-    this->lastGuessSunkLength = 0;
+FleetTracker::FleetTracker(std::vector<ShipTracker*>* trackerPtr) {
+	this->shipTrackersPtr = trackerPtr;
+	this->size = shipTrackersPtr->size();
+	this->sunkNum = 0;
+	this->lastGuessSunkLength = 0;
+	this->lastGuessHit = false;
 }
 
 FleetTracker::~FleetTracker() {
-    if(this->shipTrackersPtrsPtr != nullptr) delete this->shipTrackersPtrsPtr;
+	for (int i = 0; i < this->shipTrackersPtr->size(); i++) {
+		for (int j = 0; j < this->shipTrackersPtr->at(i)->getLength(); j++) {
+			delete this->shipTrackersPtr->at(j);
+		}
+	}
 }
 
 bool FleetTracker::attemptHit(Coord c) {
     for(int i = 0; i < this->size; i++) {
-        if(this->shipTrackersPtrsPtr->at(i)->attemptHit(c)) {
+        if(this->shipTrackersPtr->at(i)->attemptHit(c)) {
             this->lastGuessHit = true;
             this->lastCoordHit = c;
-            if(this->shipTrackersPtrsPtr->at(i)->isSunk()) {
-                this->lastGuessSunkLength = this->shipTrackersPtrsPtr->at(i)->getLength();
+            if(this->shipTrackersPtr->at(i)->isSunk()) {
+                this->lastGuessSunkLength = this->shipTrackersPtr->at(i)->getLength();
                 this->sunkNum++;
             }   
             return true;

@@ -26,18 +26,21 @@ void Players::setShips(int number){
   std::cout << "Placing a ship diagonally is not allowed.\n";
   int tempRow;
   char tempColumn = ' ';
-  std::vector<CoordHitTracker*>* coordTrackerVectPtr = nullptr;
-  std::vector<ShipTracker*>* shipTrackerVectPtr = nullptr;
+  std::vector<ShipTracker*>* shipTrackersPtr = new std::vector<ShipTracker*>;
+  ShipTracker* ship = nullptr;
   for(int i = 0; i < number; i++){
-    coordTrackerVectPtr = new std::vector<CoordHitTracker*>;
+	std::vector<CoordHitTracker*> coordTrackerPtrVec;
+	CoordHitTracker* coordTracker = nullptr;
     if(i == 0){
       std::cout << "\n\nThis ship is a 1 X " << i+1 << " ship.\n";
       myBoard->displayDefensiveBoard();
       column = getColumn();
       row = getRow();
       myBoard->markShips(charConvert(column), row);
-      coordTrackerVectPtr->push_back(new CoordHitTracker(Coord {row, column}));
-      shipTrackerVectPtr->push_back(new ShipTracker(coordTrackerVectPtr));
+	  coordTracker = new CoordHitTracker(Coord{ row, charConvert(column) });
+	  coordTrackerPtrVec.push_back(coordTracker);
+	  ship = new ShipTracker(coordTrackerPtrVec);
+	  shipTrackersPtr->push_back(ship);
     }
     else{
       std::cout << "\nThis ship is a 1 X " << i+1 << " ship.\n";
@@ -52,7 +55,7 @@ void Players::setShips(int number){
           std::cout << orientation << "\n";
       }
       for(int j = 0; j < i+1; j++){
-          coordTrackerVectPtr = new std::vector<CoordHitTracker*>;
+          
           if(j == 0){
             std::cout << "This is the first section to be placed.\n";
           }
@@ -126,16 +129,18 @@ void Players::setShips(int number){
 
         }
         myBoard->markShips(charConvert(column), row);
-        coordTrackerVectPtr->push_back(new CoordHitTracker(Coord {row, column}));
+		coordTracker = new CoordHitTracker(Coord{ row, charConvert(column) });
+		coordTrackerPtrVec.push_back(coordTracker);
         tempRow = row;
         tempColumn = (toupper(column));
       }
-      shipTrackerVectPtr->push_back(new ShipTracker(coordTrackerVectPtr));
+	  ship = new ShipTracker(coordTrackerPtrVec);
+	  shipTrackersPtr->push_back(ship);
     }
   }
   //set the column and row on the defensive map
   allSet = true;
-  this->fleetTrackerPtr = new FleetTracker(shipTrackerVectPtr);
+  this->fleetTrackerPtr = new FleetTracker(shipTrackersPtr);
 }
 void Players::getBoards() const {
 	myBoard->displayBoth();
@@ -211,11 +216,13 @@ void Players::cleanBoard(){
 }
 
 void Players::setIDinteractive() {
-  std::string name = " ";
-  std::cout << "Enter the name of this player: ";
-  std::cin >> name;
-  std::cout << "Welcome " << name << "!\n";
-  this->setID(name);
+    if (!(this->isAI())) {
+        std::string name = " ";
+            std::cout << "Enter the name of this player: ";
+            std::cin >> name;
+            std::cout << "Welcome " << name << "!\n";
+            this->setID(name);
+    }
 }
 
 bool Players::isAI() {

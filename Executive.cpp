@@ -305,7 +305,7 @@ bool Executive::playerTurnProcedure(Players* current, Players* other) {
   current->getBoards();
   std::cout << "\n" << current->getID() << " it's your turn!\n";
   Coord guess = current->takeTurn();
-  char column = charConvertInverse(guess.col);
+  int column = guess.col;
   int row = guess.row;
   bool hitStatus = false;
   other->trackShot(Coord {row, column});
