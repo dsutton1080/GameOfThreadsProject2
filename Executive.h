@@ -3,7 +3,7 @@
 #include "AI.h"
 
 class Executive{
-    private:
+    protected:
       /**
       *@pre none
       *@post Displays the logo for the game
@@ -144,7 +144,8 @@ class Executive{
         *@post Handles the majority of functionality within
         *     the game. ets players name, calls the setShip
         *     method to begin setting the ships, and handles
-        *     swapping turns for each player until the game is won
+        *     swapping turns for each player until the game is won.
+        *     Has many private methods that it uses as helpers.
         **/
         void run();
 
