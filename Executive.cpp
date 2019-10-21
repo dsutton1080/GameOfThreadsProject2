@@ -34,8 +34,7 @@ int Executive::displayMenu(){
 		while (std::cin.fail() || choice > 2 || choice < 1){
         std::cin.clear();
         std::cin.ignore(INT8_MAX, '\n');
-        std::cout << "Invalid selection, try again.\n";
-        std::cout << "\nEnter your choice: ";
+        std::cout << "Invalid selection, try again: ";
         std::cin >> choice;
         }
         if(choice == 1) {
@@ -64,8 +63,7 @@ int Executive::displayMenuDifficultyAI() {
 		while (std::cin.fail() || choice > 4 || choice < 1){
         std::cin.clear();
         std::cin.ignore(INT8_MAX, '\n');
-        std::cout << "Invalid selection, try again.\n";
-        std::cout << "\nEnter your choice: ";
+        std::cout << "Invalid selection, try again: ";
         std::cin >> choice;
         }
         if(choice == 1) {
@@ -97,8 +95,7 @@ int Executive::displayMenuGameMode(bool isAIHardMode) {
 		while (std::cin.fail() || choice > 4 || choice < 1){
         std::cin.clear();
         std::cin.ignore(INT8_MAX, '\n');
-        std::cout << "Invalid selection, try again.\n";
-        std::cout << "\nEnter your choice: ";
+        std::cout << "Invalid selection, try again: ";
         std::cin >> choice;
         }
         if(choice == 1) {
@@ -267,8 +264,7 @@ int Executive::getNumberOfShips(){
   while (std::cin.fail() || numberOfShips > 5 || numberOfShips < 1){
     std::cin.clear();
     std::cin.ignore(INT8_MAX, '\n');
-    std::cout << "Invalid number of ships, try again.\n";
-    std::cout << "\nEnter the number of ships: ";
+    std::cout << "Invalid number of ships, try again: ";
     std::cin >> numberOfShips;
   }
   return numberOfShips;
