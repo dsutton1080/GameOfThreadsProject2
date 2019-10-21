@@ -45,19 +45,19 @@ bool isValidCenterCoord(Coord c, int specialShotType);
 *@pre helper function 
 *@post returns a reference coordinate object 
 */
-Coord* coordsFromRowColOffsets(Coord c, Coord* offsets);
+std::vector<Coord> coordsFromRowColOffsets(Coord c, Coord* offsets);
 /**
 *@param takes a shotType as an integer and the origin coordinate for shot type
 *@pre shotType must not be null and Coord must not be empty 
 *@post returns a reference coordinate object 
 */
-Coord* specialShotToCoords(int shotType, Coord center);
+std::vector<Coord> specialShotToCoords(int shotType, Coord center);
 /**
 *@param takes a coords list and the coordinates 
 *@pre Coords must not be empty and the row and col must not be null 
 *@post
 */
-bool isInCoords(Coord coords[], int row, int col);
+bool isInCoords(const std::vector<Coord>&, int row, int col);
 /**
 *@param takes a coordinate object 
 *@pre helper function 
