@@ -134,7 +134,7 @@ Coord AI::mediumGuess() {
 
 		//Loop until next generated row and col are within bounds (0 - 7)
 		while (!validGuess) {
-            if (!lastGuessWasHit && !lastTryOutOfBounds) {
+            if (!lastGuessWasHit) {
                 // If guessed right of first hit and missed, guess left next time
                 if (!horizChecked && (offsetSign == 1)) {
                     offsetSign = -1;
@@ -147,7 +147,7 @@ Coord AI::mediumGuess() {
                     horizChecked = true;
                 }
                 // If guessed below first hit and missed, guess above next time
-                else if (horizChecked && (offsetSign == 1)) {
+                else if (horizChecked && (offsetSign == 1) && !lastTryOutOfBounds) {
                     offsetSign = -1;
                     offset = -1;
                 }
