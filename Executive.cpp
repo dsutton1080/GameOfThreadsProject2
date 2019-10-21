@@ -28,7 +28,7 @@ int Executive::displayMenu(){
     std::cout << "2. Start a new two player game\n";
     std::cout << "3. Exit\n";
     int choice = 0;
-	while (choice != 3) {
+	while (true) {
 		std::cout << "\nEnter your choice: ";
 		std::cin >> choice;
 		while (std::cin.fail() || choice > 2 || choice < 1){

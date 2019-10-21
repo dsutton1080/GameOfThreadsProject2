@@ -11,7 +11,7 @@ protected:
 	///String that save player's desire name
 	std::string ID;
 	// 
-	FleetTracker* fleetTrackerPtr;
+	FleetTracker fleetTracker;
 	///row number for hitting ships
 	int row;
 	///col char for hitting ships

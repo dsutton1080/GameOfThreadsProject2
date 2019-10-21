@@ -28,12 +28,11 @@ void AI::setShips(int numShips) {
     bool coordPlaced = false;
 
 
-    std::vector<ShipTracker*>* shipTrackersPtr = new std::vector<ShipTracker*>;
-    ShipTracker* ship = nullptr;
+    ShipTracker shipTracker;
+    CoordHitTracker coordTracker(Coord {-1,-1});
 
 	for (int size = numShips; size > 0; size--) {
-        std::vector<CoordHitTracker*> coordTrackerPtrVec;
-        CoordHitTracker* coordTracker = nullptr;
+        shipTracker = ShipTracker();
 		row = rand() % 8;
 		col = rand() % 8;
 		dir = directions[rand() % 4];
@@ -85,19 +84,17 @@ void AI::setShips(int numShips) {
 				}
 			}
             if (coordPlaced) {
-                coordTracker = new CoordHitTracker(Coord{ row, col });
-                coordTrackerPtrVec.push_back(coordTracker);
-                ship = new ShipTracker(coordTrackerPtrVec);
-                shipTrackersPtr->push_back(ship);
+                coordTracker = CoordHitTracker(Coord{ row, col });
+                shipTracker.appendCoordTracker(coordTracker);
                 count++;
             }
 		}
+		this->fleetTracker.appendShipTracker(shipTracker);
 		count = 0;
 	}
 	delete[] markedCols;
 	delete[] markedRows;
 
-    this->fleetTrackerPtr = new FleetTracker(shipTrackersPtr);
 	this->allSet = true;
 }
 

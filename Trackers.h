@@ -17,21 +17,22 @@ class CoordHitTracker {
 
 class ShipTracker {
     private:
-        std::vector<CoordHitTracker*> coordTrackers;
+        std::vector<CoordHitTracker> coordTrackers;
         int length;
         int hitNum;
     public:
-        ShipTracker(std::vector<CoordHitTracker*> coordPtrVect);
+        ShipTracker();
 		ShipTracker(const ShipTracker& otherShip);
         ~ShipTracker();
         bool attemptHit(Coord c);
         bool isSunk();
         int getLength();
+        void appendCoordTracker(const CoordHitTracker& cht);
 };
 
 class FleetTracker {
     private:
-		std::vector<ShipTracker*>* shipTrackersPtr;
+		std::vector<ShipTracker> shipTrackers;
         int size;
         int sunkNum;
         int lastGuessSunkLength;
@@ -39,7 +40,7 @@ class FleetTracker {
         bool lastHitSunk;
         Coord lastCoordHit;
     public:
-        FleetTracker(std::vector<ShipTracker*>* trackerPtr);
+        FleetTracker();
         ~FleetTracker();
         bool attemptHit(Coord c);
         bool sunkOnLastGuess();
@@ -48,6 +49,7 @@ class FleetTracker {
         bool isFleetSunk();
         bool hitOnLastGuess();
         Coord getLastCoordHit();
+        void appendShipTracker(const ShipTracker& st);
 };
 
 
