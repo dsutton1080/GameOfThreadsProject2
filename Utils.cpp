@@ -38,16 +38,16 @@ bool isValidCenterCoord(Coord c, int specialShotType) {
     return specialShotType == 1 ? isCoordInBounds(c, 1, 6, 1, 6) : isCoordInBounds(c, 2, 5, 2, 5); 
 }
 
-Coord* coordsFromRowColOffsets(Coord c, Coord* offsets) {
-    Coord* arr = new Coord[9];
+std::vector<Coord> coordsFromRowColOffsets(Coord c, Coord* offsets) {
+    std::vector<Coord> vect;
     for(int i = 0; i < 9; i++) {
-        arr[i] = Coord {c.row + offsets[i].row, c.col + offsets[i].col};
+        vect.push_back(Coord {c.row + offsets[i].row, c.col + offsets[i].col});
     }
-    return arr;
+    return vect;
 }
 
 // Returns a list of Coord objects given the shot type and a center Coord
-Coord* specialShotToCoords(int shotType, Coord center) {
+std::vector<Coord> specialShotToCoords(int shotType, Coord center) {
     switch (shotType)
         {
         case 1: {
@@ -69,9 +69,9 @@ Coord* specialShotToCoords(int shotType, Coord center) {
     }
 }
 
-bool isInCoords(Coord coords[], int row, int col) {
+bool isInCoords(const std::vector<Coord>& coords, int row, int col) {
     for(int i = 0; i < 9; i++) {
-        if(coords[i].row == row && coords[i].col == col) return true;
+        if(coords.at(i).row == row && coords.at(i).col == col) return true;
     }
     return false;
 }

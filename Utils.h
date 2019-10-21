@@ -19,11 +19,11 @@ bool isValidCoords(Coord coordArr[]);
 
 bool isValidCenterCoord(Coord c, int specialShotType);
 
-Coord* coordsFromRowColOffsets(Coord c, Coord* offsets);
+std::vector<Coord> coordsFromRowColOffsets(Coord c, Coord* offsets);
 
-Coord* specialShotToCoords(int shotType, Coord center);
+std::vector<Coord> specialShotToCoords(int shotType, Coord center);
 
-bool isInCoords(Coord coords[], int row, int col);
+bool isInCoords(const std::vector<Coord>& coords, int row, int col);
 
 bool isValidCenterSpecialShotCoord(Coord c, int shotEncoding);
 
