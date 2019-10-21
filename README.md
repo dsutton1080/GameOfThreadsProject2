@@ -21,7 +21,7 @@
 ### Link to the [Documentation](http://htmlpreview.github.io/?https://github.com/dsutton1080/GameOfThreadsProject1/blob/master/doc/build/html/index.html)
 
 
-### Works Cited - Python Libraries:
+### Works Cited:
 * [Battleship ASCII Art](http://www.patorjk.com/software/taag/#p=display&f=Graffiti&t=Type%20Something%20)
 
 ### Note:
