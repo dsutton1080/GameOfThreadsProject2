@@ -1,4 +1,5 @@
 #include "Players.h"
+#include <vector>
 
 Players::Players(){
   ID = " ";
@@ -261,4 +262,8 @@ bool Players::hasGuessedCoord(Coord c) {
 
 char Players::getLocationChar(int row, int col) {
   return this->myBoard.getLocation(col, row);
+}
+
+std::vector<std::tuple<int, int>> Players::returnShipList(){
+  return this->myBoard.returnPossibleCoords();
 }

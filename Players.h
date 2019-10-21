@@ -3,6 +3,7 @@
 
 #include "Boards.h"
 #include "Trackers.h"
+#include <vector>
 
 class Players{
 protected:
@@ -140,5 +141,6 @@ public:
 
 	char getLocationChar(int row, int col);
 
+	std::vector<std::tuple<int, int>> returnShipList();
 };
 #endif
