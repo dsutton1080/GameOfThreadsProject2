@@ -22,7 +22,7 @@
 
 
 ### Works Cited:
-* [Battleship ASCII Art](http://www.patorjk.com/software/taag/#p=display&f=Graffiti&t=Type%20Something%20)
+* [Battleship ASCII Art](http://www.patorjk.com/software/taag/#p=display&f=Standard&t=Battleship)
 
 ### Note:
 The **Retrospective Write-up** is in [this directory](./doc).
