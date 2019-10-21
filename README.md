@@ -18,7 +18,7 @@
   &nbsp;&nbsp; Jace Kline\
   &nbsp;&nbsp; Rick Petzold
  
-### Link to the [Documentation](http://htmlpreview.github.io/?https://github.com/dsutton1080/GameOfThreadsProject1/blob/master/doc/build/html/index.html)
+### Link to the [Documentation](http://htmlpreview.github.io/?https://github.com/dsutton1080/GameOfThreadsProject2/blob/test3/html/index.html)
 
 
 ### Works Cited:
