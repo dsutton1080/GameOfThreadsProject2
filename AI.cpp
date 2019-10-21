@@ -175,10 +175,19 @@ Coord AI::mediumGuess() {
 					guessCol += offset;
 					offset += offsetSign;
 				}
-				//If next guess would be outside of bounds, guess left instead of right
+				//If next guess would be outside of bounds, change direction of guess
 				else {
-					offset = 1;
-					offsetSign = -1;
+                    //If guessing left is out of bounds, try down
+                    if (offset == -1) {
+                        horizChecked = true;
+                        offset = 1;
+                        offsetSign = 1;
+                    }
+                    //If guessing right is out of bounds, try left
+                    else {
+                        offset = -1;
+                        offsetSign = -1;
+                    }
 				}
 			}
 			// If the AI has guessed both directions horizontally and missed,
@@ -190,9 +199,9 @@ Coord AI::mediumGuess() {
 					guessRow += offset;
 					offset += offsetSign;
 				}
-				//If next guess would be out of bounds, guess up instead of down
+				//If next guess would be out of bounds, change direction of guess
 				else {
-					offset = 1;
+					offset = -1;
 					offsetSign = -1;
 				}
 			} 
