@@ -46,7 +46,7 @@ std::vector<Coord> coordsFromRowColOffsets(Coord c, Coord* offsets) {
     return vect;
 }
 
-// Returns a list of Coord objects given the shot type and a center Coord
+//Returns a list of Coord objects given the shot type and a center Coord
 std::vector<Coord> specialShotToCoords(int shotType, Coord center) {
     switch (shotType)
         {

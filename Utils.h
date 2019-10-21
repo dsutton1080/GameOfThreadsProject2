@@ -5,9 +5,15 @@
 #include <iostream>
 #include <vector>
 
+//A struct representing a coordinate
 struct Coord {
+    //The row of the coordinate
     int row;
+    //The column of the coordinate
     int col;
+    /**
+    *@brief returns true if the two Coords have the same row and col values
+    */
     bool operator==(Coord c) const;
 };
 

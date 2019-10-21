@@ -116,6 +116,7 @@ Coord AI::easyGuess() {
 Coord AI::mediumGuess() {
 	int guessRow, guessCol;
 	bool validGuess = false;
+    bool lastTryOutOfBounds = false;
 	// If the last hit sunk a ship, guess randomly
 	if (lastHitSunkShip) {
 		guessRow = rand() % 8;
@@ -133,7 +134,7 @@ Coord AI::mediumGuess() {
 
 		//Loop until next generated row and col are within bounds (0 - 7)
 		while (!validGuess) {
-            if (!lastGuessWasHit) {
+            if (!lastGuessWasHit && !lastTryOutOfBounds) {
                 // If guessed right of first hit and missed, guess left next time
                 if (!horizChecked && (offsetSign == 1)) {
                     offsetSign = -1;
@@ -162,10 +163,20 @@ Coord AI::mediumGuess() {
 					guessCol += offset;
 					offset += offsetSign;
 				}
-				//If next guess would be outside of bounds, guess left instead of right
+				//If next guess would be outside of bounds, change directions
 				else {
-					offset = 1;
-					offsetSign = -1;
+                    lastTryOutOfBounds = true;
+                    //If guess is out of bounds to the right, try left instead
+                    if (offset == 1) {
+                        offset = -1;
+                        offsetSign = -1;
+                    }
+                    //If guess is out of bounds to the left, try down instead 
+                    else {
+                        horizChecked = true;
+                        offset = 1;
+                        offsetSign = 1;
+                    }
 				}
 			}
 			// If the AI has guessed both directions horizontally and missed,
@@ -179,11 +190,13 @@ Coord AI::mediumGuess() {
 				}
 				//If next guess would be out of bounds, guess up instead of down
 				else {
-					offset = 1;
+                    lastTryOutOfBounds = true;
+					offset = -1;
 					offsetSign = -1;
 				}
 			} 
 		}
+        lastTryOutOfBounds = false;
         return Coord{ guessRow, guessCol };
 	}
 }
@@ -210,26 +223,6 @@ Coord AI::takeTurn() {
 		guess = this->hardGuess();
 		break;
 	}
-
-	/* ---------------------------------------------------
-	TODO: Use guess to update both player's boards.
-	------------------------------------------------------
-	TODO: If the difficulty is medium, set the following
-	variables:
-
-		firstHitOnShip  - If the lastGuessWasHit is false
-			and the current guess is a hit, update to the
-			value of the current guess.
-		lastGuessWasHit - true if last guess hit a ship
-			and false otherwise
-		lastHitSunkShip - true if last guess sunk a ship 
-			and false otherwise
-
-	Ignore both offset and offsetSign; they're updated 
-	as needed in the mediumGuess method and are used
-	to determine where the next guess is in relation
-	to firstHitOnShip.
-	-----------------------------------------------------*/
 	return guess;
 }
 
