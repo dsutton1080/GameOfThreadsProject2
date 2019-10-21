@@ -1,4 +1,6 @@
-# Version 1.1.1
+# BATTLESHIP!
+
+## Version 1.1.1
 
 ### Created by team Seg Faults.
   Team Members:\
@@ -8,7 +10,7 @@
    &nbsp;&nbsp; Dalton Yoder\
    &nbsp;&nbsp; Jialei Zhou
 
-# Version 2.1.1
+## Version 2.1.1
 
 ### Edited by team Game of Threads
   Team Members:\

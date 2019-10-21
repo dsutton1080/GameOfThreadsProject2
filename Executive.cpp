@@ -298,8 +298,8 @@ void Executive::guessFeedbackMsg(bool status, int row, char col){
 }
 
 void Executive::sunkFeedbackMsg(int shipSize) {
-  std::cout << "SUNK the other player's " << toShipName(shipSize) << "!\n";
-  std::cout << "\a";
+  std::cout << "You SUNK the other player's " << toShipName(shipSize) << "!\n";
+    std::cout << "\a";
 }
 
 bool Executive::playerTurnProcedure(Players* current, Players* other) {
