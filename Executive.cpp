@@ -290,13 +290,16 @@ void Executive::pressToContinue(){
 void Executive::guessFeedbackMsg(bool status, int row, char col){
   if(status) {
     std::cout << "HIT (" << col << ", " << row << ")!\n";
+    std::cout << "\a";
   }else{
     std::cout << "MISSED (" << col << ", " << row << ")!\n";
+    std::cout << "\a";
   }
 }
 
 void Executive::sunkFeedbackMsg(int shipSize) {
   std::cout << "You SUNK the other player's " << toShipName(shipSize) << "!\n";
+    std::cout << "\a";
 }
 
 bool Executive::playerTurnProcedure(Players* current, Players* other) {
