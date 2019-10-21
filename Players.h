@@ -112,32 +112,71 @@ public:
 	 *@post Board is cleaned off.
 	 */
 	void cleanBoard();
-
+    /**
+    *@pre none
+    *@return true if the player is an AI, false otherwise
+    */
 	virtual bool isAI();
-
-	// returns a bool indicating whether this player was hit on the last shot
+    /**
+     *@brief returns a bool indicating whether this player was hit on the last shot.
+    */
 	bool wasHitPrev();
 
-	// returns an int 1-5 (or 0) indicating the size of the last sunk ship
+    /**
+     *@brief returns an int 1-5 (or 0) indicating the size of the last sunk ship
+    */
 	int prevSunkLength();
 
+    /**
+    *@brief Returns true the last guess against the player's board sunk a ship
+    */
 	bool wasSunkPrev();
 
+    /**
+    *@brief Returns true if the last time the player's board was hit a ship sunk
+    */
     bool wasSunkPrevHit();
 
-	// updates the fleet tracker by giving it a guess Coord
+    /**
+    *@brief updates the fleet tracker by giving it a guess Coord
+    */
 	void trackShot(Coord c);
 
+    /**
+    *@pre Player was hit at least once
+    *@return The coordinate on which the player was last hit
+    */
 	Coord getLastHitCoord(); 
 
+    /**
+    *@pre none
+    *@return The coordinate the user is prompted for
+    */
 	virtual Coord takeTurn();
 
+    /**
+    *@return The coordinate the user is prompted for
+    */
 	virtual Coord takeSpecialShot();
 
+    /**
+    *@brief Prints the result of a guess
+    */
 	virtual void guessFeedbackSignal();
 
+    /**
+    *@param c: A coordinate
+    *@pre none
+    *@returns True if the player has guessed that coordinate before, false otherwise
+    */
 	bool hasGuessedCoord(Coord c);
 
+    /**
+    *@param row: An int
+    *@param col: An int
+    *@pre Both parameters are in the range 0-7
+    *@return The value of the player's defensivee board at the the coordinate specified
+    */
 	char getLocationChar(int row, int col);
 
 };

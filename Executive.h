@@ -28,17 +28,24 @@ class Executive{
        *@brief Let's the user see if they hit or miss.
        */
       void guessFeedbackMsg(bool status, int row, char col);
-
+      /**
+      *@param
+      *@pre
+      *@post
+      */
       void sunkFeedbackMsg(int shipSize);
       /**
        *@brief The sequence procedure performed by each player on their turn.
        * This is to factor out the repetitive code.
        *@return A boolean indicating if the current turn ended the game
-       */
+      */
       bool playerTurnProcedure(Players* current, Players* other);
-
+      /**
+      *@param
+      *@pre
+      *@return
+      */
       bool specialShotProcedure(Players* current, Players* other);
-
       /**
       *@pre none
       *@return An int indicating the combination of # of players, game type, and AI difficulty
@@ -46,30 +53,76 @@ class Executive{
       **/
       int displayMenu();
 
+      /**
+      *@param
+      *@pre
+      *@return
+      */
       int displayMenuDifficultyAI();
-
+      /**
+      *@param
+      *@pre
+      *@return
+      */
       int displayMenuGameMode(bool isHardAIMode);
-
+      /**
+      *@param
+      *@pre
+      *@post
+      */
       void spawnGame(int gameEncoding);
-
+      /**
+      *@param
+      *@pre
+      *@post
+      */
       void runGame(int gamemode, int aiLevel);
-
+      /**
+      *@param
+      *@pre
+      *@post
+      */
       void runNormal(Players* p1, Players* p2);
-
+      /**
+      *@param
+      *@pre
+      *@post
+      */
       void runSpecialShot(Players* p1, Players* p2);
-
+      /**
+      *@param
+      *@pre
+      *@post
+      */
       void runMakeItTakeIt(Players* p1, Players* p2);
-
+      /**
+      *@param
+      *@pre
+      *@return
+      */
       bool promptSpecialShot(Players* p);
 
       Coord promptGuess(Players* current);
 
       Coord promptSpecialShotCenterCoord(Players* current);
 
+      /**
+      *@param
+      *@pre
+      *@return
+      */
       int promptSpecialShotSelection(Players* p);
-
+      /**
+      *@param
+      *@pre
+      *@post
+      */
       void printSpecialShotOption(int option);
-
+      /**
+      *@param
+      *@pre
+      *@post
+      */
       void runGameHelper(int gamecode, Players* p1, Players* p2);
 
     public:

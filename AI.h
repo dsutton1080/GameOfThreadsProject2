@@ -5,23 +5,45 @@
 
 class AI : public Players {
 private:
+    //An integer that encodes the difficulty of the AI
+    //1 for easy, 2 for medium, 3 for hard
 	int difficulty;
+    //The player the AI is playing against
 	Players* otherPlayer;
-	/*---------------------------------------
-	The following are variables used for
-	mediumGuess() method
-	----------------------------------------*/
+    //Keeps track of whether the AI's last hit sunk a ship
 	bool lastHitSunkShip;
+    //Keeps track of whether the AI's last guess was a hit
 	bool lastGuessWasHit;
-	bool horizChecked;;
+    //Keeps track of whether the AI has tried guessing to the left and right
+    //of the last coordinate it hit
+	bool horizChecked;
+    //How far away the next guess should be from firstHitOnShip (medium difficulty only)
 	int offset;
+    //Keeps track of whether the AI is guessing in a negative or positive direction
+    //from firstHitOnShip (medium difficulty only)
 	int offsetSign;
+    //The coordinate of the first hit the AI got on the ship it is 
+    //currently trying to sink (medium difficulty only)
 	Coord firstHitOnShip;
-	//----------------------------------------
 
 public:
+    /**
+    *@param difficulty: Int encoding the difficulty of the AI
+    *@param otherPlayerPtr: A pointer to the AI's opponent
+    *@pre none
+    *@post An AI created with the given difficulty setting and opponent
+    */
 	AI(int difficulty, Players* otherPlayerPtr);
+    /**
+    *@param The number of ships the AI is to set
+    *@pre The AI has not already set its ships
+    *@post All of the AIs ships are set
+    */
 	void setShips(int);
+
+    /**
+    *@brief returns true
+    */
 	bool isAI();
 
 	/*
@@ -36,21 +58,34 @@ public:
 	- See 'Utils.cpp' file for the Coord struct definition
 	*/
 
-	// Random every guess. Ensure that you don't guess what's already been guessed.
+    /**
+    *@brief Random every guess. Ensure that you don't guess what's already been guessed.
+    */ 
 	Coord easyGuess();
 
-
+    /**
+    *@brief Guesses randomly until it hits a ship, then keeps guessing nearby until it sinks it
+    */
 	Coord mediumGuess();
 
-	// Must use the pointer to the other player to know where the other player's ships are.
-	// Be sure to keep straight which spots on the other player's have already been guessed 
+    /**
+    *@brief Guesses knowing where all the opponents ships are
+    */
 	Coord hardGuess();
 
-	// returns the Coord to be guessed based on the AI difficulty
+    /**
+    *@brief Returns the guess that should be generated based on the AI's difficulty
+    */
 	Coord takeTurn();
 
+    /**
+    *@brief Returns the coordinate the user was prompted for their special shot
+    */
 	Coord takeSpecialShot();
 
+    /**
+    *@brief Prints the result of the AI's guess
+    */
 	void guessFeedbackSignal();
 };
 #endif

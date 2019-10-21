@@ -71,9 +71,13 @@ public:
 	 * @note Marks the array with an 'S' at the specified location
 	 */
 	void markShips(int, int);
-
+    /**
+    *@param
+    *@param
+    *@pre
+    *@post
+    */
 	void unmarkShips(int, int);
-
 	/**
 	 * @pre none
 	 * @post Returns a boolean value
