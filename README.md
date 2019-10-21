@@ -1,12 +1,12 @@
 ### Version 1.1.1
 
-Created by team Seg Faults.
-  Team Members:
-    Brian Clark
-    Qingyang Dong
-    FeiShian Tzeng
-    Dalton Yoder
-    Jialei Zhou
+Created by team Seg Faults.\
+  Team Members:\
+    Brian Clark\
+    Qingyang Dong\
+    FeiShian Tzeng\
+    Dalton Yoder\
+    Jialei Zhou\
 
 ### Version 2.1.1
 
