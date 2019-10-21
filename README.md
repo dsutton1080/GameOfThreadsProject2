@@ -1,6 +1,6 @@
 # Version 1.1.1
 
-### Created by team Seg Faults.\
+### Created by team Seg Faults.
   Team Members:\
    &nbsp;&nbsp; Brian Clark\
    &nbsp;&nbsp; Qingyang Dong\
@@ -10,7 +10,7 @@
 
 # Version 2.1.1
 
-### Edited by team Game of Threads\
+### Edited by team Game of Threads
   Team Members:\
   &nbsp;&nbsp; Chris Hardin\
   &nbsp;&nbsp; Cedric Starks\
