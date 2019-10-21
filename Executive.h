@@ -54,51 +54,54 @@ class Executive{
       int displayMenu();
 
       /**
-      *@param
-      *@pre
-      *@return
+      *@pre none
+      *@return A in indicating the game type and AI difficulty
       */
       int displayMenuDifficultyAI();
       /**
-      *@param
-      *@pre
-      *@return
+      *@param isHardAIMode: A bool indicating whether the AI is on hard mode
+      *@pre none
+      *@return An int indicating the game type
       */
       int displayMenuGameMode(bool isHardAIMode);
       /**
-      *@param
-      *@pre
-      *@post
+      *@param gameEncoding: A number indicating which the chosen settings for # of players, game type, and difficulty
+      *@pre gameEncoding was generated from displayMenu() function
+      *@post A game with the given set up is run
       */
       void spawnGame(int gameEncoding);
       /**
-      *@param
-      *@pre
-      *@post
+      *@param gameMode: An int indicating the game mode
+      *@param aiLevel: An int indicating the AI difficulty
+      *@pre none
+      *@post The game is run
       */
       void runGame(int gamemode, int aiLevel);
       /**
-      *@param
-      *@pre
-      *@post
+      *@param p1: The first player
+      *@param p2: The second player (can be AI)
+      *@pre none
+      *@post A game is run with no special rules
       */
       void runNormal(Players* p1, Players* p2);
       /**
-      *@param
-      *@pre
-      *@post
+      *@param p1: The first player
+      *@param p2: The second player (can be AI)
+      *@pre none
+      *@post A game is run where players have the option to take one special shot
       */
       void runSpecialShot(Players* p1, Players* p2);
       /**
-      *@param
-      *@pre
-      *@post
+      *@param p1: The first player
+      *@param p2: The second player (can be AI)
+      *@pre none
+      *@post A game is run where getting a hit allows you to take another turn
       */
       void runMakeItTakeIt(Players* p1, Players* p2);
       /**
-      *@param
-      *@pre
-      *@return
+      *@param p: A player object
+      *@pre p is the current turn player
+      *@return Whether the player has indicated that they would like to use their special shot
       */
       bool promptSpecialShot(Players* p);
 
@@ -107,21 +110,23 @@ class Executive{
       Coord promptSpecialShotCenterCoord(Players* current);
 
       /**
-      *@param
-      *@pre
-      *@return
+      *@param p: A player object
+      *@pre p is the current turn player
+      *@return An int indicating what type of special shot the player chose to use
       */
       int promptSpecialShotSelection(Players* p);
       /**
-      *@param
-      *@pre
-      *@post
+      *@param option: An int indicating the type of special shot to dsiplay
+      *@pre none
+      *@post Displays the types of special shots to choose from
       */
       void printSpecialShotOption(int option);
       /**
-      *@param
-      *@pre
-      *@post
+      *@param gameCode: An int indicating what type of game to run
+      *@param p1: A player object
+      *@param p2: A player object
+      *@pre none
+      *@post The appropriate game type is ran
       */
       void runGameHelper(int gamecode, Players* p1, Players* p2);
 
@@ -129,18 +134,15 @@ class Executive{
         /**
         *@pre none
         *@post primary constructor of the Executive class
-        *@post returns nothing
         **/
         Executive();
         /**
         *@pre none
         *@post destructor of the Executive class
-        *@post returns nothing
         **/
         ~Executive();
        /**
         *@pre none
-        *@post none
         *@post Handles the majority of functionality within
         *     the game. ets players name, calls the setShip
         *     method to begin setting the ships, and handles
