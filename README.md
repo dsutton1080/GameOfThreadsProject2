@@ -18,7 +18,7 @@
   &nbsp;&nbsp; Jace Kline\
   &nbsp;&nbsp; Rick Petzold
  
-### Link to the [Documentation](https://rawcdn.githack.com/dsutton1080/GameOfThreadsProject2/a73d1eeb64809764fe72980e869fca57ebf24aa7/html/annotated.html)
+### Link to the [Documentation](https://rawcdn.githack.com/dsutton1080/GameOfThreadsProject2/f5f726eba876e2bb3463536cd067f2071fe9e5f0/doc/html/annotated.html)
 
 
 ### Works Cited:
