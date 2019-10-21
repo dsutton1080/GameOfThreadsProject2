@@ -1,5 +1,6 @@
 #include "Boards.h"
 #include <iostream>
+#include <vector>
 using namespace std;
 
 Boards::Boards(){
@@ -145,4 +146,16 @@ void Boards::clearBoards(){
       defensiveBoard[i][j] = '~';
     }
   }
+}
+
+vector< tuple<int, int> > Boards::returnPossibleCoords(){
+  typedef vector< tuple<int,int> > tuple_list;
+  tuple_list ShipCoords;
+  for(int i = 0 ; i < rows ; i++) {
+    for(int j = 0; j < cols; j++){
+      if (offensiveBoard[i][j] == 'S');
+        ShipCoords.push_back( tuple<int, int>(i, j) );
+    }
+  }
+  return ShipCoords;
 }

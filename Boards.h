@@ -7,6 +7,7 @@
 
 #include <iostream>
 #include <string>
+#include <vector>
 
 class Boards{
 private:
@@ -131,6 +132,8 @@ public:
 	 * @post Boards are cleaned off.
 	 */
 	void clearBoards();
+
+	std::vector<std::tuple<int, int>> returnPossibleCoords();
 
 };
 #endif
