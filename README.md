@@ -1,9 +1,3 @@
- ____        _   _   _      ____  _     _
-| __ )  __ _| |_| |_| | ___/ ___|| |__ (_)_ __
-|  _ \ / _` | __| __| |/ _ \___ \| '_ \| | '_ \
-| |_) | (_| | |_| |_| |  __/___) | | | | | |_) |
-|____/ \__,_|\__|\__|_|\___|____/|_| |_|_| .__/
-                                        |_|
 ### Version 1.1.1
 
 Created by team Seg Faults.
@@ -14,12 +8,12 @@ Created by team Seg Faults.
     Dalton Yoder
     Jialei Zhou
 
-###Version 2.1.1
+### Version 2.1.1
 
 ### Link to the [Documentation](http://htmlpreview.github.io/?https://github.com/dsutton1080/GameOfThreadsProject1/blob/master/doc/build/html/index.html)
 
-##Edited by team Game of Threads
- #Team Members:
+## Edited by team Game of Threads
+ # Team Members:
    Chris Hardin
    Cedric Starks
    DeRon Sutton
