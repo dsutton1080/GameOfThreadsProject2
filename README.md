@@ -2,7 +2,7 @@
 
 Created by team Seg Faults.\
   Team Members:\
-   &nbsp; Brian Clark\
+   &nbsp; * Brian Clark\
    &nbsp; Qingyang Dong\
    &nbsp; FeiShian Tzeng\
    &nbsp; Dalton Yoder\
