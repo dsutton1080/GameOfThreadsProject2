@@ -2,11 +2,11 @@
 
 Created by team Seg Faults.\
   Team Members:\
-    Brian Clark\
-    Qingyang Dong\
-    FeiShian Tzeng\
-    Dalton Yoder\
-    Jialei Zhou\
+   &nbsp; Brian Clark\
+   &nbsp; Qingyang Dong\
+   &nbsp; FeiShian Tzeng\
+   &nbsp; Dalton Yoder\
+   &nbsp; Jialei Zhou
 
 ### Version 2.1.1
 
